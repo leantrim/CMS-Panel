@@ -63,7 +63,7 @@ const BodyContext = (props: Props) => {
 					{webData.bodyTexts?.map((_, index) => (
 						<TextSection key={index}>
 							<HeaderContainer>
-								<h4>sektion {index}</h4>
+								<h4>sektion 1 {index}</h4>
 								<StyledIcon
 									icon={faTrashCan}
 									onClick={() => handleDeleteSection(index)}
