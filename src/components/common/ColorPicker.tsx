@@ -1,66 +1,68 @@
-'use client';
-import { WebsiteModel } from '@/types/WebsiteModel';
-import { faPalette } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
-import { ColorResult, SketchPicker } from 'react-color';
-import styled from 'styled-components';
+"use client";
+import { SectionSubTitle, SectionTitle } from "@/Shared/Styles";
+import { WebsiteModel } from "@/types/WebsiteModel";
+import { faPalette } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from "react";
+import { ColorResult, SketchPicker } from "react-color";
+import styled from "styled-components";
 
 type ColorPreviewPros = {
-	previewColor: string;
+  previewColor: string;
 };
 
 type Props = {
-	title: string;
-	update: (
-		key: keyof WebsiteModel,
-		value: WebsiteModel[keyof WebsiteModel]
-	) => void;
-	valueType: keyof WebsiteModel;
-	webData: WebsiteModel;
+  title: string;
+  value: string;
+  onColorUpdate: (e: ColorResult) => void;
 };
 
 const ColorPicker = (props: Props) => {
-	const { title, valueType, update, webData } = props;
-	const [showColorPicker, setShowColorPicker] = React.useState<boolean>(false);
+  const { title, value, onColorUpdate } = props;
+  const [showColorPicker, setShowColorPicker] = React.useState<boolean>(false);
 
-	const handleColorChange = (color: ColorResult) => {
-		update(valueType, color.hex);
-	};
-
-	return (
-		<div>
-			<h4>{title}</h4>
-			<PreviewContainer
-				previewColor={webData[valueType]}
-				onClick={() => setShowColorPicker(!showColorPicker)}
-			>
-				<FontAwesomeIcon icon={faPalette} />
-			</PreviewContainer>
-			{showColorPicker && (
-				<ColorPickerContainer>
-					<SketchPicker
-						onChange={handleColorChange}
-						color={webData[valueType]}
-					/>
-				</ColorPickerContainer>
-			)}
-		</div>
-	);
+  return (
+    <div>
+      <SectionSubTitle>{title}</SectionSubTitle>
+      <PreviewContainer
+        previewColor={value}
+        onClick={() => setShowColorPicker(!showColorPicker)}
+      >
+        <FontAwesomeIcon icon={faPalette} />
+      </PreviewContainer>
+      {showColorPicker && (
+        <ColorPickerContainer>
+          <SketchPicker
+            onChange={(valueType: ColorResult) => onColorUpdate(valueType)}
+            color={value}
+            styles={{
+              default: {
+                picker: {
+                  paddingRight: "14px",
+                  paddingLeft: "14px",
+                },
+              },
+            }}
+          />
+        </ColorPickerContainer>
+      )}
+    </div>
+  );
 };
 
 const ColorPickerContainer = styled.div`
-	/* position: absolute; */
+  position: absolute;
 `;
 
 const PreviewContainer = styled.div<ColorPreviewPros>`
-	background-color: ${(props) => props.previewColor};
-	border: 1px solid black;
-	height: 32px;
-	text-align: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
+  background-color: ${(props) => props.previewColor};
+  border: 1px solid black;
+  height: 32px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  min-width: 220px;
 `;
 export default ColorPicker;
