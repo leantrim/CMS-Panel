@@ -11,20 +11,29 @@ const siteSchema: Schema<WebsiteModel> = new mongoose.Schema({
   primaryColor: { type: String, required: true },
   secondaryColor: { type: String, required: true },
   aboutUs: { type: String, required: true },
+  imageUrl: { type: String, required: false },
+  _id: { type: String, required: false },
+  __v: { type: Number, required: false },
   bodyTexts: [
-    {
-      title: { type: String, required: true },
-      text: { type: String, required: true },
-    },
+    new Schema(
+      {
+        title: { type: String, required: true },
+        text: { type: String, required: true },
+      },
+      { _id: false }
+    ), // Disable automatic creation of _id for subdocuments
   ],
   services: [
-    {
-      title: { type: String, required: true },
-      text: { type: String, required: true },
-      metaTitle: { type: String, required: true },
-      metaDescription: { type: String, required: true },
-      imageUrl: { type: String, required: false },
-    },
+    new Schema(
+      {
+        title: { type: String, required: true },
+        text: { type: String, required: true },
+        metaTitle: { type: String, required: true },
+        metaDescription: { type: String, required: true },
+        imageUrl: { type: String, required: false },
+      },
+      { _id: false }
+    ), // Disable automatic creation of _id for subdocuments
   ],
   contactInfo: {
     email: { type: String, required: true },
@@ -45,6 +54,9 @@ function validateSite(site: WebsiteModel) {
     primaryColor: Joi.string().required(),
     secondaryColor: Joi.string().required(),
     aboutUs: Joi.string().required(),
+    imageUrl: Joi.string().allow(""),
+    _id: Joi.string().allow(""),
+    __v: Joi.number(),
     bodyTexts: Joi.array()
       .items(
         Joi.object<InfoType>({
@@ -60,7 +72,7 @@ function validateSite(site: WebsiteModel) {
           text: Joi.string().required(),
           metaTitle: Joi.string().required(),
           metaDescription: Joi.string().required(),
-          imageUrl: Joi.string(),
+          imageUrl: Joi.string().allow(""),
         })
       )
       .required(),

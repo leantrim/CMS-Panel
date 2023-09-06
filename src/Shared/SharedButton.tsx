@@ -9,26 +9,26 @@ export enum ButtonType {
 
 type Props = {
   label: string;
-  handleClick: () => void;
+  handleClick: (e: any) => void;
   disabled?: boolean;
-  type: ButtonType;
+  buttonType: ButtonType;
 };
 
 const SharedButton = (props: Props) => {
-  const { label, handleClick, disabled, type } = props;
+  const { label, handleClick, disabled, buttonType } = props;
 
   const handleClickWithPrevention = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-    handleClick();
+    handleClick(e);
   };
   return (
     <Container>
       <Button
         disabled={disabled}
         onClick={handleClickWithPrevention}
-        buttonType={type}
+        buttonType={buttonType}
       >
         {label}
       </Button>

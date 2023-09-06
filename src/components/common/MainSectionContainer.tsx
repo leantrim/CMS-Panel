@@ -4,7 +4,7 @@ import ToggleContainerVisibility from "./ToggleContainerVisibility";
 import styled from "styled-components";
 import SharedButton, { ButtonType } from "@/Shared/SharedButton";
 import { useSharedWebData } from "@/context/WebDataContext";
-import { WebsiteModel } from "@/types/WebsiteModel";
+import { WebsiteModel } from "types/WebsiteModel";
 
 interface MainSectionContainerProps {
   children: React.ReactNode;

@@ -20,6 +20,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0 15px;
+  position: fixed;
+  width: 100%;
 `;
 
 const Logo = styled.img`

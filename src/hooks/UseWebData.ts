@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { WebsiteModel, generateInitialState } from "@/types/WebsiteModel";
+import { WebsiteModel, generateInitialState } from "types/WebsiteModel";
 
 export const useWebData = () => {
   const [webData, setWebData] = useState<WebsiteModel>(generateInitialState);
@@ -28,7 +28,6 @@ export const useWebData = () => {
       }
       return updatedData;
     });
-    console.log(value, key, fieldKey);
   };
 
   const addData = (key: keyof WebsiteModel, data?: any) => {

@@ -3,20 +3,83 @@ import { validateSite as validate, Site } from "../model/Site";
 import auth from "../middleware/auth";
 import { WebsiteModel } from "../../../types/WebsiteModel";
 import admin from "../middleware/admin";
+import mongoose from "mongoose";
 
 const router = express.Router();
-
-// TODO: Add authentication once user system is setup in the CMS.
-router.post("/", async (req: Request, res: Response) => {
-  const { error } = validate(req.body);
+router.put("/", auth, async (req: Request, res: Response) => {
+  const { user, ...webData } = req.body;
+  console.log(webData);
+  const { error } = validate(webData);
   if (error) return res.status(400).send(error.message);
 
-  const { site: url } = req.body;
+  const { url } = webData;
   const existingSite = await Site.findOne({ url });
-  if (existingSite)
-    return res.status(400).send({ message: "site already exists", url });
+  if (!existingSite)
+    return res.status(400).send({ message: "site does not exist", url });
 
-  const site: WebsiteModel = new Site({ ...req.body });
+  try {
+    const updatedSite = await Site.findByIdAndUpdate(webData._id, webData);
+    return res.status(200).send(updatedSite);
+  } catch (err) {
+    console.error(
+      "ERROR: Something went wrong with updating a website, please contact administrator and include this error:",
+      err
+    );
+    return res.status(500).send(err);
+  }
+});
+
+router.get("/", auth, async (req: Request, res: Response) => {
+  const sites = await Site.find();
+  if (!sites) return res.status(404).send("No sites have been created");
+
+  return res.status(200).send(sites);
+});
+
+router.get("/sitebyname/:id", auth, async (req, res) => {
+  const site: any = await Site.findOne({ url: req.params.id });
+  console.log(req.params.id);
+
+  if (!site)
+    return res.status(404).send("The site with the given id was not found");
+
+  return res.send(site);
+});
+
+router.get("/:id", auth, async (req, res) => {
+  const site: any = await Site.findById(req.params.id);
+  console.log(site, req.params.id);
+
+  if (!site)
+    return res.status(404).send("The site with the given id was not found");
+
+  return res.send(site);
+});
+
+router.post("/", async (req, res) => {
+  const { error } = validate(req.body);
+  const { user, ...webData } = req.body;
+  if (error) return res.status(400).send(error.message);
+  const existingSite: WebsiteModel | null = await Site.findOne({
+    url: webData.url,
+  });
+  if (existingSite)
+    return res.status(400).send(`Hemsidan finns redan: ${webData.url}`);
+
+  // Check if the URL is reachable
+  /* const buildUrl = `https://${req.body.web.url}`;
+  try {
+    await fetch(buildUrl);
+  } catch (error) {
+    return res
+      .status(400)
+      .send(`Hemsidan ej nårbar. Är den upplagd på panelen?: ${buildUrl}`);
+  }*/
+  console.log(webData);
+  const site: WebsiteModel = new Site({
+    _id: new mongoose.Types.ObjectId(),
+    ...webData,
+  });
 
   try {
     await site.save();
@@ -28,19 +91,6 @@ router.post("/", async (req: Request, res: Response) => {
     );
     return res.status(500).send(err);
   }
-});
-
-// TODO: Add authentication
-router.get("/", async (req: Request, res: Response) => {
-  const sites = await Site.find();
-  if (!sites) return res.status(404).send("No sites have been created");
-
-  return res.status(200).send(sites);
-});
-
-router.get("/site", auth, async (req: Request, res: Response) => {
-  const site = await Site.findById(req.body.site._id);
-  return res.send(site);
 });
 
 /*const sgMail = require("@sendgrid/mail");

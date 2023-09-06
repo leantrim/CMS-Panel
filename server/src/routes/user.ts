@@ -6,7 +6,7 @@ import { UserType } from "../../../types/UserType";
 
 const router = express.Router();
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", auth, async (req: Request, res: Response) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.message);
 
@@ -30,6 +30,13 @@ router.post("/", async (req: Request, res: Response) => {
     );
     return res.status(500).send(err);
   }
+});
+
+router.get("/", auth, async (req: Request, res: Response) => {
+  const user = await User.find().select("-password");
+  if (!user) return res.status(404).send("No sites have been created");
+
+  return res.send(user);
 });
 
 router.get("/me", auth, async (req: Request, res: Response) => {

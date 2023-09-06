@@ -1,8 +1,37 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-}
+const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 
-module.exports = nextConfig
+module.exports = (phase) => {
+  const isDev = phase === PHASE_DEVELOPMENT_SERVER;
+
+  return {
+    eslint: {
+      dirs: ["."],
+    },
+    poweredByHeader: false,
+    trailingSlash: true,
+    basePath: "",
+    // The starter code load resources from `public` folder with `router.basePath` in React components.
+    // So, the source code is "basePath-ready".
+    // You can remove `basePath` if you don't need it.
+    reactStrictMode: true,
+    images: {
+      remotePatterns: [
+        {
+          protocol: !JSON.parse(process.env.MINIO_USE_SSL) ? "http" : "https",
+          hostname: process.env.MINIO_END_POINT,
+        },
+      ],
+    },
+    experimental: {
+      serverActions: true,
+    },
+    compiler: {
+      // see https://styled-components.com/docs/tooling#babel-plugin for more info on the options.
+      styledComponents: {
+        displayName: isDev,
+        ssr: true,
+        fileName: isDev,
+      },
+    },
+  };
+};

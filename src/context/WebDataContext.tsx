@@ -4,7 +4,7 @@ import {
   SiteProperty,
   WebsiteModel,
   generateInitialState,
-} from "@/types/WebsiteModel";
+} from "types/WebsiteModel";
 
 export type WebDataMethods = {
   updateWebData: (
@@ -35,7 +35,7 @@ const WebDataContext = createContext<WebDataMethods>({
 });
 
 export const WebDataProvider = ({ children }: { children: ReactNode }) => {
-  const [webData, setWebData] = useState<WebsiteModel>(generateInitialState);
+  const [webData, setWebData] = useState<WebsiteModel>(initialState);
 
   const updateWebData = (
     key: keyof WebsiteModel,
@@ -60,7 +60,6 @@ export const WebDataProvider = ({ children }: { children: ReactNode }) => {
       }
       return updatedData;
     });
-    console.log(value, key, fieldKey, "UPDATE?");
   };
 
   const addData = (key: keyof WebsiteModel, data?: any) => {

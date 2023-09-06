@@ -1,5 +1,6 @@
 import { UserType } from "../../types/UserType";
 import { FormTypes } from "../../types/Forms";
+import { FileUploadTypes } from "../../types/Upload";
 import {
   WebsiteModel,
   WebsiteModelKeys,
@@ -16,4 +17,5 @@ export type {
   InfoType,
   Services,
   FormTypes,
+  FileUploadTypes,
 };

@@ -1,13 +1,14 @@
-import express, { Request, Response } from "express";
-import { validateForm as validate, Form } from "../model/Forms";
-import { FormTypes } from "../../../types/Forms";
+import express, { Request, Response } from 'express';
+import { validateForm as validate, Form } from '../model/Forms';
+import { FormTypes } from '../../../types/Forms';
+import admin from 'src/middleware/admin';
+import auth from 'src/middleware/auth';
 
 const router = express.Router();
 
-router.post("/", async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.message);
-  console.log(Date.now());
 
   const form: FormTypes = new Form({ ...req.body, dateSubmitted: new Date() });
 
@@ -16,17 +17,17 @@ router.post("/", async (req: Request, res: Response) => {
     return res.send(form);
   } catch (err) {
     console.error(
-      "ERROR: Something went wrong with registering a form, please contact administrator and include this error:",
-      err
+      'ERROR: Something went wrong with registering a form, please contact administrator and include this error:',
+      err,
     );
     return res.status(500).send(err);
   }
 });
 
 // TODO: Add authentication (user, admin)
-router.get("/", async (req: Request, res: Response) => {
+router.get('/', auth, async (req: Request, res: Response) => {
   const forms = await Form.find();
-  if (!forms) return res.status(404).send("No forms have been created");
+  if (!forms) return res.status(404).send('No forms have been created');
 
   return res.status(200).send(forms);
 });

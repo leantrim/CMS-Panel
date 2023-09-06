@@ -6,6 +6,7 @@ import user from "./routes/user";
 import auth from "./routes/auth";
 import site from "./routes/site";
 import forms from "./routes/forms";
+import upload from "./routes/Storage/upload";
 
 dotenv.config();
 checkJwtSecret();
@@ -18,6 +19,7 @@ app.use("/api/user", user);
 app.use("/api/auth", auth);
 app.use("/api/sites", site);
 app.use("/api/forms", forms);
+app.use("/api/upload", upload);
 
 /* MongoDB */
 const MONGODB = getMongoDBConfig();
@@ -37,15 +39,15 @@ function initializeExpressApp() {
   app.use(cors());
   app.use(express.json());
   app.get("/", (req, res) => {
-    res.send("Hello World! ");
+    res.status(403);
   });
   return app;
 }
 
 // Function to start the server
 function startServer(app: any) {
-  app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+  app.listen(8000, () => {
+    console.log("Server is running on port 8000");
   });
 }
 
