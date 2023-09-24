@@ -1,25 +1,18 @@
-export type InfoType = {
+export type WebsiteModel = {
   title: string;
-  text: string;
-};
-
-export type ContactInfo = {
-  email: string;
-  address: string;
-  companyName: string;
-  phoneNumber: string;
-};
-
-export type Services = {
-  metaTitle: string;
-  metaDescription: string;
-  imageUrl: string;
-} & InfoType;
-
-export type SiteProperty = {
-  services: Services;
+  url: string;
+  primaryColor: string;
+  secondaryColor: string;
+  aboutUs: string;
+  bodyTexts: InfoType[];
+  services: Services[];
   contactInfo: ContactInfo;
-};
+  imageUrl: string;
+  save?: any;
+  toObject?: any;
+  _id?: string;
+  __v?: number;
+} & MetaProps;
 
 export enum SitePropertyModelKey {
   Title = 'title',
@@ -34,10 +27,26 @@ export enum SitePropertyModelKey {
   PhoneNumber = 'phoneNumber',
 }
 
-export enum WebsiteModelKeys {
+export type ContactInfo = {
+  email: string;
+  address: string;
+  companyName: string;
+  phoneNumber: string;
+};
+
+export type Services = {
+  metaTitle: string;
+  metaDescription: string;
+  imageUrl: string;
+} & InfoType;
+
+export enum MetaKeys {
   MetaTitle = 'metaTitle',
+  MetaDescription = 'metaDescription',
+}
+
+export enum WebsiteModelKeys {
   Url = 'url',
-  Description = 'description',
   PrimaryColor = 'primaryColor',
   SecondaryColor = 'secondaryColor',
   Email = 'email',
@@ -48,31 +57,27 @@ export enum WebsiteModelKeys {
   Services = 'services',
   ContactInfo = 'contactInfo',
   ImageUrl = 'imageUrl',
+  MetaTitle = MetaKeys.MetaTitle,
+  MetaDescription = MetaKeys.MetaDescription,
 }
 
-export type WebsiteModel = {
-  metaTitle: string;
+export type InfoType = {
   title: string;
-  url: string;
-  description: string;
-  primaryColor: string;
-  secondaryColor: string;
-  aboutUs: string;
-  bodyTexts: InfoType[];
-  services: Services[];
-  contactInfo: ContactInfo;
-  imageUrl: string;
-  save?: any;
-  toObject?: any;
-  _id?: string;
-  __v?: number;
+  text: string;
+};
+
+export type SiteProperty = Services & ContactInfo;
+
+type MetaProps = {
+  metaTitle: string;
+  metaDescription: string;
 };
 
 export const generateInitialState = (site = ''): WebsiteModel => ({
   url: site,
   title: 'Städhjälp Malmö [GENERATE INITIAL]',
   metaTitle: 'Meta Title [GENERATE INITIAL]',
-  description: 'Beskrivning [GENERATE INITIAL]',
+  metaDescription: 'Beskrivning [GENERATE INITIAL]',
   primaryColor: '#145bd7',
   secondaryColor: '#f8bd3b',
   aboutUs: 'Om oss',

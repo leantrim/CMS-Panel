@@ -1,13 +1,13 @@
-import Joi from "joi";
-import mongoose, { Schema, Model } from "mongoose";
-import "mongoose-type-email";
-import { WebsiteModel, InfoType, Services } from "types";
+import Joi from 'joi';
+import mongoose, { Schema, Model } from 'mongoose';
+import 'mongoose-type-email';
+import { WebsiteModel, InfoType, Services } from 'types';
 
 const siteSchema: Schema<WebsiteModel> = new mongoose.Schema({
   metaTitle: { type: String, required: true },
   url: { type: String, required: true },
   title: { type: String, required: true },
-  description: { type: String, required: true },
+  metaDescription: { type: String, required: true },
   primaryColor: { type: String, required: true },
   secondaryColor: { type: String, required: true },
   aboutUs: { type: String, required: true },
@@ -20,7 +20,7 @@ const siteSchema: Schema<WebsiteModel> = new mongoose.Schema({
         title: { type: String, required: true },
         text: { type: String, required: true },
       },
-      { _id: false }
+      { _id: false },
     ), // Disable automatic creation of _id for subdocuments
   ],
   services: [
@@ -32,7 +32,7 @@ const siteSchema: Schema<WebsiteModel> = new mongoose.Schema({
         metaDescription: { type: String, required: true },
         imageUrl: { type: String, required: false },
       },
-      { _id: false }
+      { _id: false },
     ), // Disable automatic creation of _id for subdocuments
   ],
   contactInfo: {
@@ -43,26 +43,26 @@ const siteSchema: Schema<WebsiteModel> = new mongoose.Schema({
   },
 });
 
-const Site: Model<WebsiteModel> = mongoose.model("Site", siteSchema);
+const Site: Model<WebsiteModel> = mongoose.model('Site', siteSchema);
 
 function validateSite(site: WebsiteModel) {
   const schema = Joi.object<WebsiteModel>({
     metaTitle: Joi.string().required(),
     url: Joi.string().required(),
     title: Joi.string().required(),
-    description: Joi.string().required(),
+    metaDescription: Joi.string().required(),
     primaryColor: Joi.string().required(),
     secondaryColor: Joi.string().required(),
     aboutUs: Joi.string().required(),
-    imageUrl: Joi.string().allow(""),
-    _id: Joi.string().allow(""),
+    imageUrl: Joi.string().allow(''),
+    _id: Joi.string().allow(''),
     __v: Joi.number(),
     bodyTexts: Joi.array()
       .items(
         Joi.object<InfoType>({
           title: Joi.string().required(),
           text: Joi.string().required(),
-        })
+        }),
       )
       .required(),
     services: Joi.array()
@@ -72,8 +72,8 @@ function validateSite(site: WebsiteModel) {
           text: Joi.string().required(),
           metaTitle: Joi.string().required(),
           metaDescription: Joi.string().required(),
-          imageUrl: Joi.string().allow(""),
-        })
+          imageUrl: Joi.string().allow(''),
+        }),
       )
       .required(),
     contactInfo: Joi.object({

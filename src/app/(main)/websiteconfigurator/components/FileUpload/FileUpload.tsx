@@ -1,12 +1,10 @@
-import Image from "next/image";
-import React, { useEffect, useState, useTransition } from "react";
-import styled from "styled-components";
+import Image from 'next/image';
+import React, { useEffect, useState, useTransition } from 'react';
+import styled from 'styled-components';
 
 type Props = {
   title: string;
-  onImageUpdate: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
+  onImageUpdate: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   value: string;
 };
 
@@ -25,17 +23,13 @@ function FileUpload(props: Props) {
     }
   };
 
-  useEffect(() => {
-    setImageUrl(value);
-  }, []);
-
   const handleUpload = () => {
     if (file) {
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append('file', file);
 
-      fetch("http://localhost:8000/api/upload", {
-        method: "POST",
+      fetch('http://localhost:8000/api/upload', {
+        method: 'POST',
         body: formData,
       })
         .then((response) => response.json())
@@ -43,23 +37,23 @@ function FileUpload(props: Props) {
           if (data.success) {
             setImageUrl(data.message);
             onImageUpdate(data.message);
-            setError("");
+            setError('');
             setFile(null);
           } else {
             setError(data.message);
           }
         })
         .catch((error) => {
-          console.error("Error:", error);
+          console.error('Error:', error);
           setError(error.toString());
         });
     } else {
-      console.error("No file selected");
+      console.error('No file selected');
     }
   };
 
   const handleDeleteImage = () => {
-    setImageUrl("");
+    setImageUrl('');
     setFile(null);
   };
 
@@ -67,7 +61,7 @@ function FileUpload(props: Props) {
     <UploadContainer>
       <h1>{title}</h1>
       <Form>
-        <UploadInput type='file' onChange={handleFileChange} />
+        <UploadInput type="file" onChange={handleFileChange} />
         {error && <div>{error}</div>}
         {(imageUrl || file) && !error && (
           <UploadImageContainer
@@ -76,21 +70,17 @@ function FileUpload(props: Props) {
             onClick={() => handleDeleteImage()}
           >
             <UploadImage
-              src={file ? URL.createObjectURL(file) : imageUrl || ""}
-              alt='Uploaded file'
+              src={file ? URL.createObjectURL(file) : imageUrl || ''}
+              alt="Uploaded file"
               width={500}
               height={500}
+              priority
             />
-            {showCloseButton && (
-              <CloseButton onClick={() => handleDeleteImage()}>X</CloseButton>
-            )}
+            {showCloseButton && <CloseButton onClick={() => handleDeleteImage()}>X</CloseButton>}
           </UploadImageContainer>
         )}
-        <UploadButton
-          onClick={() => startTransition(() => handleUpload())}
-          disabled={!Boolean(file)}
-        >
-          {isPending ? "Filen laddas upp..." : "Ladda upp"}
+        <UploadButton onClick={() => startTransition(() => handleUpload())} disabled={!Boolean(file)}>
+          {isPending ? 'Filen laddas upp...' : 'Ladda upp'}
         </UploadButton>
       </Form>
     </UploadContainer>

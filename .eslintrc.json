@@ -2,9 +2,10 @@
   "extends": [
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
+    "prettier",
     "plugin:prettier/recommended",
-    "next/core-web-vitals"
+    "next/core-web-vitals",
+    "next"
   ],
   "rules": {
     "no-unused-vars": "error",

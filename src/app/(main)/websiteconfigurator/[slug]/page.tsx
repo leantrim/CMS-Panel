@@ -1,24 +1,22 @@
-import Main from "../components/main";
+import Main from '../components/main';
 
 async function WebsiteConfigurator({ params }: { params: { slug: string } }) {
   const data = await getData(params.slug);
-  console.log(data);
 
   return <Main website={data} />;
 }
 
-export const dynamic = "force-dynamic";
-
 async function getData(id: string) {
   const res = await fetch(`http://localhost:8000/api/sites/${id}`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      ["authorization"]: process.env.BACKEND_API_KEY!!,
+      ['authorization']: process.env.BACKEND_API_KEY!!,
     },
+    cache: 'no-store',
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   return res.json();

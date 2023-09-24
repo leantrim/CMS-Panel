@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const Header = () => {
   return (
     <Container>
       <Logo
-        src='https://mediapartners.se/_next/image?url=%2Fimages%2Fmediapartners-nobg.png&w=640&q=75'
-        alt='Media Partners Logo'
+        src="https://mediapartners.se/_next/image?url=%2Fimages%2Fmediapartners-nobg.png&w=640&q=75"
+        alt="Media Partners Logo"
       />
       <CMS>- CMS</CMS>
     </Container>
@@ -22,6 +22,7 @@ const Container = styled.div`
   padding: 0 15px;
   position: fixed;
   width: 100%;
+  z-index: 999;
 `;
 
 const Logo = styled.img`

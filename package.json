@@ -21,9 +21,11 @@
     "@fortawesome/sharp-light-svg-icons": "^6.4.2",
     "@fortawesome/sharp-regular-svg-icons": "^6.4.2",
     "@fortawesome/sharp-solid-svg-icons": "^6.4.2",
+    "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "18.14.1",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
     "axios": "^1.5.0",
     "eslint": "8.34.0",
     "eslint-config-next": "^13.4.19",
@@ -36,6 +38,7 @@
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.1.2",
     "react-router-dom": "^6.15.0",
     "react-toastify": "^9.1.3",
     "styled-components": "^5.3.6",
@@ -45,6 +48,8 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.2",
     "@types/react-color": "^3.0.6",
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0"
   }
 }

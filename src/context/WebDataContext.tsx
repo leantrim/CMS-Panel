@@ -1,17 +1,13 @@
-"use client";
-import React, { createContext, useContext, ReactNode, useState } from "react";
-import {
-  SiteProperty,
-  WebsiteModel,
-  generateInitialState,
-} from "types/WebsiteModel";
+'use client';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { ContactInfo, Services, SiteProperty, WebsiteModel, generateInitialState } from 'types/WebsiteModel';
 
 export type WebDataMethods = {
   updateWebData: (
     key: keyof WebsiteModel,
-    fieldKey: keyof SiteProperty | null,
+    fieldKey: keyof (ContactInfo & Services) | null,
     value: any,
-    index?: number | undefined
+    index?: number | undefined,
   ) => void;
   addData: (key: keyof WebsiteModel, data?: any) => void;
   deleteData: (key: keyof WebsiteModel, index: number) => void;
@@ -24,9 +20,9 @@ const initialState = generateInitialState();
 const WebDataContext = createContext<WebDataMethods>({
   updateWebData: (
     key: keyof WebsiteModel,
-    fieldKey: keyof SiteProperty | null,
+    fieldKey: keyof (ContactInfo & Services) | null,
     value: any,
-    index?: number | undefined
+    index?: number | undefined,
   ) => {},
   addData: (key: keyof WebsiteModel, data?: any) => {},
   deleteData: (key: keyof WebsiteModel, index: number) => {},
@@ -39,9 +35,9 @@ export const WebDataProvider = ({ children }: { children: ReactNode }) => {
 
   const updateWebData = (
     key: keyof WebsiteModel,
-    fieldKey: keyof SiteProperty | null,
+    fieldKey: keyof (ContactInfo & Services) | null,
     value: any,
-    index?: number
+    index?: number,
   ) => {
     setWebData((prevWebData: WebsiteModel) => {
       let updatedData = { ...prevWebData };
@@ -77,9 +73,7 @@ export const WebDataProvider = ({ children }: { children: ReactNode }) => {
   const deleteData = (key: keyof WebsiteModel, index: number) => {
     setWebData((prevWebData) => {
       if (Array.isArray(prevWebData[key])) {
-        const newData = (prevWebData[key] as Array<any>).filter(
-          (_, i) => i !== index
-        );
+        const newData = (prevWebData[key] as Array<any>).filter((_, i) => i !== index);
         return { ...prevWebData, [key]: newData };
       }
       return prevWebData;

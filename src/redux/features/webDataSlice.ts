@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ContactInfo, InfoType, Services, SiteProperty, WebsiteModel, generateInitialState } from 'types/WebsiteModel';
+import { Services, SiteProperty, WebsiteModel, generateInitialState } from 'types/WebsiteModel';
 
 const initialState: WebsiteModel = generateInitialState();
 
