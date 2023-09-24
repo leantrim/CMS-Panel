@@ -1,82 +1,78 @@
-import Field from "@/components/common/TextField";
-import {
-  SitePropertyModelKey,
-  WebsiteModel,
-  WebsiteModelKeys,
-} from "types/WebsiteModel";
-import React from "react";
-import MainSectionContainer from "@/components/common/MainSectionContainer";
-import TextField from "@/components/common/TextField";
-import { useSharedWebData } from "@/context/WebDataContext";
+import { SitePropertyModelKey, WebsiteModelKeys } from 'types/WebsiteModel';
+import React from 'react';
+import MainSectionContainer from '@/components/common/MainSectionContainer';
+import TextField from '@/components/common/TextField';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, useAppSelector } from '@/redux/store';
+import { updateWebData } from '@/redux/features/webDataSlice';
 
 const ContactInformation = () => {
-  const { webData, updateWebData, addData, deleteData } = useSharedWebData();
+  const dispatch = useDispatch<AppDispatch>();
+  const webData = useAppSelector((state) => state.webData);
 
   return (
     <MainSectionContainer
-      title='Kontakt information'
-      infoText='Tjänster som sidan erbjuder'
+      title="Kontakt information"
+      infoText="Kontakt information om företaget"
       keyType={WebsiteModelKeys.ContactInfo}
       disableAddButton
     >
       <>
         <TextField
-          label='Telefonnummer:'
+          key={SitePropertyModelKey.PhoneNumber}
+          label="Telefonnummer:"
           onTextUpdate={(e) => {
-            updateWebData(
-              WebsiteModelKeys.ContactInfo,
-              SitePropertyModelKey.PhoneNumber,
-              e.currentTarget.value
+            dispatch(
+              updateWebData({
+                key: WebsiteModelKeys.ContactInfo,
+                fieldKey: SitePropertyModelKey.PhoneNumber,
+                value: e.currentTarget.value,
+              }),
             );
           }}
-          value={
-            webData[WebsiteModelKeys.ContactInfo]?.[
-              SitePropertyModelKey.PhoneNumber
-            ]
-          }
+          value={webData[WebsiteModelKeys.ContactInfo]?.[SitePropertyModelKey.PhoneNumber]}
         />
         <TextField
-          label='Email:'
+          key={SitePropertyModelKey.Email}
+          label="Email:"
           onTextUpdate={(e) => {
-            updateWebData(
-              WebsiteModelKeys.ContactInfo,
-              SitePropertyModelKey.Email,
-              e.currentTarget.value
+            dispatch(
+              updateWebData({
+                key: WebsiteModelKeys.ContactInfo,
+                fieldKey: SitePropertyModelKey.Email,
+                value: e.currentTarget.value,
+              }),
             );
           }}
-          value={
-            webData[WebsiteModelKeys.ContactInfo]?.[SitePropertyModelKey.Email]
-          }
+          value={webData[WebsiteModelKeys.ContactInfo]?.[SitePropertyModelKey.Email]}
         />
         <TextField
-          label='Address:'
+          key={SitePropertyModelKey.Address}
+          label="Address:"
           onTextUpdate={(e) => {
-            updateWebData(
-              WebsiteModelKeys.ContactInfo,
-              SitePropertyModelKey.Address,
-              e.currentTarget.value
+            dispatch(
+              updateWebData({
+                key: WebsiteModelKeys.ContactInfo,
+                fieldKey: SitePropertyModelKey.Address,
+                value: e.currentTarget.value,
+              }),
             );
           }}
-          value={
-            webData[WebsiteModelKeys.ContactInfo]?.[
-              SitePropertyModelKey.Address
-            ]
-          }
+          value={webData[WebsiteModelKeys.ContactInfo]?.[SitePropertyModelKey.Address]}
         />
         <TextField
-          label='Företagsnamn:'
+          key={SitePropertyModelKey.CompanyName}
+          label="Företagsnamn:"
           onTextUpdate={(e) => {
-            updateWebData(
-              WebsiteModelKeys.ContactInfo,
-              SitePropertyModelKey.CompanyName,
-              e.currentTarget.value
+            dispatch(
+              updateWebData({
+                key: WebsiteModelKeys.ContactInfo,
+                fieldKey: SitePropertyModelKey.CompanyName,
+                value: e.currentTarget.value,
+              }),
             );
           }}
-          value={
-            webData[WebsiteModelKeys.ContactInfo]?.[
-              SitePropertyModelKey.CompanyName
-            ]
-          }
+          value={webData[WebsiteModelKeys.ContactInfo]?.[SitePropertyModelKey.CompanyName]}
         />
       </>
     </MainSectionContainer>

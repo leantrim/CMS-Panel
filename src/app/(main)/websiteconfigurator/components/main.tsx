@@ -1,21 +1,28 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import { useSharedWebData } from "@/context/WebDataContext";
-import MainSettings from "./SiteSettings/MainSettings";
-import ContactInformation from "./ContactInformation/ContactInformation";
-import AboutUs from "./AboutUs";
-import BodySection from "./Body";
-import Services from "./Services";
-import { WebsiteModel } from "types/WebsiteModel";
-import { updateSite } from "@/services/siteService";
+'use client';
+import React, { useEffect, useState, useRef, EffectCallback, DependencyList, useMemo } from 'react';
+import styled from 'styled-components';
+import MainSettings from './SiteSettings/SiteSettings';
+import ContactInformation from './ContactInformation/ContactInformation';
+import AboutUs from './AboutUs';
+import BodySection from './Body';
+import Services from './Services';
+import { WebsiteModel } from 'types/WebsiteModel';
+import { updateSite } from '@/services/siteService';
+import { useDispatch } from 'react-redux';
+import { setWebData } from '@/redux/features/webDataSlice';
+import { AppDispatch, useAppSelector } from '@/redux/store';
 
 type Props = {
-  website?: WebsiteModel;
+  website: WebsiteModel;
 };
 
 function WebsiteConfigurator(props: Props) {
-  const { setWebData, webData } = useSharedWebData();
+  const dispatch = useDispatch<AppDispatch>();
+  const webData = useAppSelector((state) => state.webData);
+  useEffect(() => {
+    dispatch(setWebData(props.website));
+  }, [props.website, dispatch]);
+
   const [errors, setErrors] = useState<string>();
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,10 +38,6 @@ function WebsiteConfigurator(props: Props) {
     }
   };
 
-  useEffect(() => {
-    setWebData(webData);
-  }, []);
-
   return (
     <Container>
       <Form onSubmit={onSubmit}>
@@ -43,7 +46,7 @@ function WebsiteConfigurator(props: Props) {
         <AboutUs />
         <BodySection />
         <Services />
-        <Button type='submit'>Skapa</Button>
+        <Button type="submit">Skapa</Button>
       </Form>
     </Container>
   );

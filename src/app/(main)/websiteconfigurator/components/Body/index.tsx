@@ -1,62 +1,55 @@
-import { SitePropertyModelKey, WebsiteModelKeys } from "types/WebsiteModel";
-import React from "react";
-import styled from "styled-components";
-import TextField from "@/components/common/TextField";
-import { useSharedWebData } from "@/context/WebDataContext";
-import SectionContainer from "@/components/common/MainSectionContainer";
-import SubSectionContainer from "@/components/common/SubSectionContainer";
+import { SitePropertyModelKey, WebsiteModelKeys } from 'types/WebsiteModel';
+import React from 'react';
+import styled from 'styled-components';
+import TextField from '@/components/common/TextField';
+import SectionContainer from '@/components/common/MainSectionContainer';
+import SubSectionContainer from '@/components/common/SubSectionContainer';
+import { useDispatch } from 'react-redux';
+import { AppDispatch, useAppSelector } from '@/redux/store';
+import { deleteData, updateWebData } from '@/redux/features/webDataSlice';
 
 const BodySection = () => {
-  const { webData, updateWebData, deleteData } = useSharedWebData();
+  const dispatch = useDispatch<AppDispatch>();
+  const webData = useAppSelector((state) => state.webData);
 
   return (
-    <SectionContainer
-      title='Text Information'
-      infoText='Text som syns på framsidan!'
-      keyType={WebsiteModelKeys.Bodys}
-    >
+    <SectionContainer title="Text Information" infoText="Text som syns på framsidan!" keyType={WebsiteModelKeys.Bodys}>
       <>
         {webData[WebsiteModelKeys.Bodys]?.map((_, index) => (
           <SubSectionContainer
             key={index}
-            onClickDelete={() => deleteData(WebsiteModelKeys.Bodys, index)}
+            onClickDelete={() => dispatch(deleteData({ key: WebsiteModelKeys.Bodys, index }))}
             title={`Section ${index}`}
-            value={
-              webData[WebsiteModelKeys.Bodys][index]?.title ?? "Ny sektion"
-            }
+            value={webData[WebsiteModelKeys.Bodys][index]?.title ?? 'Ny sektion'}
           >
             <TextField
-              label='Title'
+              label="Title"
               onTextUpdate={(e) => {
-                updateWebData(
-                  WebsiteModelKeys.Bodys,
-                  SitePropertyModelKey.Title,
-                  e.currentTarget.value,
-                  index
+                dispatch(
+                  updateWebData({
+                    key: WebsiteModelKeys.Bodys,
+                    fieldKey: SitePropertyModelKey.Title,
+                    value: e.currentTarget.value,
+                    index,
+                  }),
                 );
               }}
-              value={
-                webData[WebsiteModelKeys.Bodys][index]?.[
-                  SitePropertyModelKey.Title
-                ]
-              }
+              value={webData[WebsiteModelKeys.Bodys][index]?.[SitePropertyModelKey.Title]}
             />
             <TextField
-              label='Text'
+              label="Text"
               large
               onTextUpdate={(e) => {
-                updateWebData(
-                  WebsiteModelKeys.Bodys,
-                  SitePropertyModelKey.Text,
-                  e.currentTarget.value,
-                  index
+                dispatch(
+                  updateWebData({
+                    key: WebsiteModelKeys.Bodys,
+                    fieldKey: SitePropertyModelKey.Text,
+                    value: e.currentTarget.value,
+                    index,
+                  }),
                 );
               }}
-              value={
-                webData[WebsiteModelKeys.Bodys][index]?.[
-                  SitePropertyModelKey.Text
-                ]
-              }
+              value={webData[WebsiteModelKeys.Bodys][index]?.[SitePropertyModelKey.Text]}
             />
           </SubSectionContainer>
         ))}

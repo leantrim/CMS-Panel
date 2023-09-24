@@ -1,112 +1,110 @@
-import { SitePropertyModelKey, WebsiteModelKeys } from "types/WebsiteModel";
-import React from "react";
-import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import MainSectionContainer from "@/components/common/MainSectionContainer";
-import SubSectionContainer from "@/components/common/SubSectionContainer";
-import { useSharedWebData } from "@/context/WebDataContext";
-import TextField from "@/components/common/TextField";
+import { SitePropertyModelKey, WebsiteModel, WebsiteModelKeys } from 'types/WebsiteModel';
+import React from 'react';
+import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import MainSectionContainer from '@/components/common/MainSectionContainer';
+import SubSectionContainer from '@/components/common/SubSectionContainer';
+import TextField from '@/components/common/TextField';
+import { AppDispatch, useAppSelector } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { deleteData, updateWebData } from '@/redux/features/webDataSlice';
+import { metaDescriptionInfo, metaTitleWordInfo } from '@/constants/wordCounters';
 
 const Services = () => {
-  const { webData, updateWebData, addData, deleteData } = useSharedWebData();
+  const dispatch = useDispatch<AppDispatch>();
+  const webData = useAppSelector((state) => state.webData);
 
   return (
-    <MainSectionContainer
-      title='Tjänster'
-      infoText='Tjänster som sidan erbjuder'
-      keyType={WebsiteModelKeys.Services}
-    >
+    <MainSectionContainer title="Tjänster" infoText="Tjänster som sidan erbjuder" keyType={WebsiteModelKeys.Services}>
       <>
         {webData[WebsiteModelKeys.Services]?.map((_, index) => (
           <SubSectionContainer
             key={index}
-            onClickDelete={() => deleteData(WebsiteModelKeys.Services, index)}
+            onClickDelete={() => {
+              const payload = {
+                key: WebsiteModelKeys.Services as keyof WebsiteModel,
+                index,
+              };
+              dispatch(deleteData(payload));
+            }}
             title={`Section ${index}`}
-            value={
-              webData[WebsiteModelKeys.Services][index]?.title ?? "Ny sektion"
-            }
+            value={webData[WebsiteModelKeys.Services][index]?.title ?? 'Ny sektion'}
           >
             <TextField
-              label='Titel'
+              key={SitePropertyModelKey.Title}
+              label="Titel"
               onTextUpdate={(e) => {
-                updateWebData(
-                  WebsiteModelKeys.Services,
-                  SitePropertyModelKey.Title,
-                  e.currentTarget.value,
-                  index
+                dispatch(
+                  updateWebData({
+                    key: WebsiteModelKeys.Services,
+                    fieldKey: SitePropertyModelKey.Title,
+                    value: e.currentTarget.value,
+                    index,
+                  }),
                 );
               }}
-              value={
-                webData[WebsiteModelKeys.Services][index]?.[
-                  SitePropertyModelKey.Title
-                ]
-              }
+              value={webData[WebsiteModelKeys.Services][index]?.[SitePropertyModelKey.Title]}
             />
             <TextField
-              label='Meta Title'
+              key={SitePropertyModelKey.MetaTitle}
+              label="Meta Title"
               onTextUpdate={(e) => {
-                updateWebData(
-                  WebsiteModelKeys.Services,
-                  SitePropertyModelKey.MetaTitle,
-                  e.currentTarget.value,
-                  index
+                dispatch(
+                  updateWebData({
+                    key: WebsiteModelKeys.Services,
+                    fieldKey: SitePropertyModelKey.MetaTitle,
+                    value: e.currentTarget.value,
+                    index,
+                  }),
                 );
               }}
-              value={
-                webData[WebsiteModelKeys.Services][index]?.[
-                  SitePropertyModelKey.MetaTitle
-                ]
-              }
-              wordCounter
+              value={webData[WebsiteModelKeys.Services][index]?.[SitePropertyModelKey.MetaTitle]}
+              wordCounter={metaTitleWordInfo}
             />
             <TextField
-              label='Meta Beskrivning'
+              key={SitePropertyModelKey.MetaDescription}
+              label="Meta Beskrivning"
               onTextUpdate={(e) => {
-                updateWebData(
-                  WebsiteModelKeys.Services,
-                  SitePropertyModelKey.MetaDescription,
-                  e.currentTarget.value,
-                  index
+                dispatch(
+                  updateWebData({
+                    key: WebsiteModelKeys.Services,
+                    fieldKey: SitePropertyModelKey.MetaDescription,
+                    value: e.currentTarget.value,
+                    index,
+                  }),
                 );
               }}
-              value={
-                webData[WebsiteModelKeys.Services][index]?.[
-                  SitePropertyModelKey.MetaDescription
-                ]
-              }
-              wordCounter
+              value={webData[WebsiteModelKeys.Services][index]?.[SitePropertyModelKey.MetaDescription]}
+              wordCounter={metaDescriptionInfo}
+              large
             />
             <TextField
-              label='Bild Länk'
+              key={SitePropertyModelKey.ImageUrl}
+              label="Bild Länk"
               onTextUpdate={(e) => {
-                updateWebData(
-                  WebsiteModelKeys.Services,
-                  SitePropertyModelKey.ImageUrl,
-                  e.currentTarget.value,
-                  index
-                );
+                updateWebData({
+                  key: WebsiteModelKeys.Services,
+                  fieldKey: SitePropertyModelKey.ImageUrl,
+                  value: e.currentTarget.value,
+                  index,
+                });
               }}
-              value={
-                webData[WebsiteModelKeys.Services][index]?.[
-                  SitePropertyModelKey.ImageUrl
-                ]
-              }
+              value={webData[WebsiteModelKeys.Services][index]?.[SitePropertyModelKey.ImageUrl]}
             />
             <TextField
-              label='Text (visas i huvudsidan där vi listar våra tjänster)'
+              key={SitePropertyModelKey.Text}
+              label="Text (visas i huvudsidan där vi listar våra tjänster)"
               onTextUpdate={(e) => {
-                updateWebData(
-                  WebsiteModelKeys.Services,
-                  SitePropertyModelKey.Text,
-                  e.currentTarget.value,
-                  index
+                dispatch(
+                  updateWebData({
+                    key: WebsiteModelKeys.Services,
+                    fieldKey: SitePropertyModelKey.Text,
+                    value: e.currentTarget.value,
+                    index: index,
+                  }),
                 );
               }}
-              value={
-                webData[WebsiteModelKeys.Services][index]?.[
-                  SitePropertyModelKey.Text
-                ]
-              }
+              value={webData[WebsiteModelKeys.Services][index]?.[SitePropertyModelKey.Text]}
               large
             />
           </SubSectionContainer>
@@ -115,17 +113,5 @@ const Services = () => {
     </MainSectionContainer>
   );
 };
-
-const StyledIcon = styled(FontAwesomeIcon)`
-  cursor: pointer;
-  :hover {
-    color: red;
-  }
-`;
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 export default Services;

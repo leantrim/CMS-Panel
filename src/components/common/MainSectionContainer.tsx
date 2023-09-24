@@ -1,10 +1,12 @@
-import { HeadContainer, InfoText, SectionTitle } from "@/Shared/Styles";
-import { useState } from "react";
-import ToggleContainerVisibility from "./ToggleContainerVisibility";
-import styled from "styled-components";
-import SharedButton, { ButtonType } from "@/Shared/SharedButton";
-import { useSharedWebData } from "@/context/WebDataContext";
-import { WebsiteModel } from "types/WebsiteModel";
+import { InfoText, SectionTitle } from '@/Shared/Styles';
+import { useState } from 'react';
+import ToggleContainerVisibility from './ToggleContainerVisibility';
+import styled from 'styled-components';
+import SharedButton, { ButtonType } from '@/Shared/SharedButton';
+import { WebsiteModel } from 'types/WebsiteModel';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { addData } from '@/redux/features/webDataSlice';
 
 interface MainSectionContainerProps {
   children: React.ReactNode;
@@ -22,20 +24,17 @@ const MainSectionContainer: React.FC<MainSectionContainerProps> = ({
   disableAddButton,
 }) => {
   const [showSettings, setShowSettings] = useState<boolean>(false);
-  const { addData } = useSharedWebData();
+  const dispatch = useDispatch<AppDispatch>();
 
   return (
     <Container
-      style={{ cursor: !showSettings ? "pointer" : "default" }}
+      style={{ cursor: !showSettings ? 'pointer' : 'default' }}
       onClick={() => {
         if (!showSettings) setShowSettings(true);
       }}
       showSettings={showSettings}
     >
-      <ToggleContainerVisibility
-        setShowSettings={setShowSettings}
-        showSettings={showSettings}
-      />
+      <ToggleContainerVisibility setShowSettings={setShowSettings} showSettings={showSettings} />
       <InfoContainer>
         <SectionTitle>{title}</SectionTitle>
         {showSettings && <InfoText>{infoText}</InfoText>}
@@ -45,9 +44,9 @@ const MainSectionContainer: React.FC<MainSectionContainerProps> = ({
           {children}
           {!disableAddButton && (
             <SharedButton
-              handleClick={() => addData(keyType)}
-              label='Skapa ny sektion'
-              type={ButtonType.PRIMARY}
+              handleClick={() => dispatch(addData({ key: keyType }))}
+              label="Skapa ny sektion"
+              buttonType={ButtonType.PRIMARY}
             />
           )}
         </>
@@ -66,11 +65,8 @@ const Container = styled.div<{ showSettings: boolean }>`
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   transition: all 0.3s ease;
-  padding: ${(props) =>
-    props.showSettings
-      ? "24px"
-      : "6px"}; // Change padding when showSettings is true
-  gap: ${(props) => (props.showSettings ? "12px" : "0px")};
+  padding: ${(props) => (props.showSettings ? '24px' : '6px')}; // Change padding when showSettings is true
+  gap: ${(props) => (props.showSettings ? '12px' : '0px')};
 `;
 
 const InfoContainer = styled.div`
