@@ -1,16 +1,14 @@
-import {
-  faBrowser,
-  faGear,
-  faTrashAlt,
-} from "@fortawesome/pro-light-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import styled from "styled-components";
-import { WebsiteModel } from "types/WebsiteModel";
-import { useState } from "react";
-import { faMobileAlt } from "@fortawesome/pro-solid-svg-icons";
-import { faDesktop } from "@fortawesome/sharp-solid-svg-icons";
-import DeleteSite from "./DeleteSite";
+import { faBrowser, faGear, faTrashAlt } from '@fortawesome/pro-light-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
+import styled from 'styled-components';
+import { WebsiteModel } from 'types/WebsiteModel';
+import { useState } from 'react';
+import { faMobileAlt } from '@fortawesome/pro-solid-svg-icons';
+import { faDesktop } from '@fortawesome/sharp-solid-svg-icons';
+import DeleteSite from './DeleteSite';
+import { SiteTitle } from '@/Shared/Styles';
+import style from '@/Style';
 
 type Props = {
   site: WebsiteModel;
@@ -28,27 +26,16 @@ const DisplaySite = (props: Props) => {
 
   return (
     <>
-      <DeleteSite
-        site={site}
-        isDeleteModalOpen={isDeleteModalOpen}
-        setIsDeleteModalOpen={setIsDeleteModalOpen}
-      />
+      <DeleteSite site={site} isDeleteModalOpen={isDeleteModalOpen} setIsDeleteModalOpen={setIsDeleteModalOpen} />
       <SiteContainer key={site._id} ismobile={isMobile}>
         <TopContainer>
           <SiteTitle>{site.url}</SiteTitle>
-          <span>{site._id}</span>
           <IconContainer>
-            <FontAwesomeIcon
-              icon={faBrowser}
-              onClick={() => setSitePreview(!sitePreview)}
-            />
+            <FontAwesomeIcon icon={faBrowser} onClick={() => setSitePreview(!sitePreview)} />
             <Link href={`/websiteconfigurator/${site._id}`} key={site._id}>
               <FontAwesomeIcon icon={faGear} />
             </Link>
-            <FontAwesomeIcon
-              icon={faTrashAlt}
-              onClick={() => handleDeleteSite()}
-            />
+            <FontAwesomeIcon icon={faTrashAlt} onClick={() => handleDeleteSite()} />
           </IconContainer>
         </TopContainer>
 
@@ -57,17 +44,11 @@ const DisplaySite = (props: Props) => {
             <iframe
               src={`https://${site.url}`}
               title={site.url}
-              style={{ width: isMobile ? "400px" : "100%", height: "500px" }}
+              style={{ width: isMobile ? '400px' : '100%', height: '500px' }}
             />
             <IframeIconContainer>
-              <FontAwesomeIcon
-                icon={faMobileAlt}
-                onClick={() => setIsMobile(true)}
-              />
-              <FontAwesomeIcon
-                icon={faDesktop}
-                onClick={() => setIsMobile(false)}
-              />
+              <FontAwesomeIcon icon={faMobileAlt} onClick={() => setIsMobile(true)} />
+              <FontAwesomeIcon icon={faDesktop} onClick={() => setIsMobile(false)} />
             </IframeIconContainer>
           </IframeContainer>
         )}
@@ -109,23 +90,17 @@ const TopContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  padding: 24px;
 `;
 
 const SiteContainer = styled.div<FrameProps>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 20px;
-  padding: 12px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   width: 100%;
-`;
-
-const SiteTitle = styled.h2`
-  color: #333;
-  font-size: 18px;
 `;
 
 export default DisplaySite;

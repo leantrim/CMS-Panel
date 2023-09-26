@@ -1,70 +1,66 @@
-import express, { Request, Response } from "express";
-import { validateSite as validate, Site } from "../model/Site";
-import auth from "../middleware/auth";
-import { WebsiteModel } from "../../../types/WebsiteModel";
-import admin from "../middleware/admin";
-import mongoose from "mongoose";
+import express, { Request, Response } from 'express';
+import { validateSite as validate, Site } from '../model/Site';
+import auth from '../middleware/auth';
+import { WebsiteModel } from '../../../types/WebsiteModel';
+import admin from '../middleware/admin';
+import mongoose from 'mongoose';
 
 const router = express.Router();
-router.put("/", auth, async (req: Request, res: Response) => {
+router.put('/', auth, async (req: Request, res: Response) => {
   const { user, ...webData } = req.body;
-  console.log(webData);
   const { error } = validate(webData);
   if (error) return res.status(400).send(error.message);
 
   const { url } = webData;
   const existingSite = await Site.findOne({ url });
-  if (!existingSite)
-    return res.status(400).send({ message: "site does not exist", url });
+  if (!existingSite) return res.status(400).send({ message: 'site does not exist', url });
 
   try {
     const updatedSite = await Site.findByIdAndUpdate(webData._id, webData);
     return res.status(200).send(updatedSite);
   } catch (err) {
     console.error(
-      "ERROR: Something went wrong with updating a website, please contact administrator and include this error:",
-      err
+      'ERROR: Something went wrong with updating a website, please contact administrator and include this error:',
+      err,
     );
     return res.status(500).send(err);
   }
 });
 
-router.get("/", auth, async (req: Request, res: Response) => {
-  const sites = await Site.find();
-  if (!sites) return res.status(404).send("No sites have been created");
+router.get('/', auth, async (req: Request, res: Response) => {
+  // Introduce a delay of 2 seconds (2000 milliseconds) before fetching the sites
+  setTimeout(async () => {
+    const sites = await Site.find();
+    if (!sites) return res.status(404).send('No sites have been created');
 
-  return res.status(200).send(sites);
+    return res.status(200).send(sites);
+  }, 10000); // Delay for 2 seconds
 });
 
-router.get("/sitebyname/:id", auth, async (req, res) => {
+router.get('/sitebyname/:id', auth, async (req, res) => {
   const site: any = await Site.findOne({ url: req.params.id });
-  console.log(req.params.id);
 
-  if (!site)
-    return res.status(404).send("The site with the given id was not found");
+  if (!site) return res.status(404).send('The site with the given id was not found');
 
   return res.send(site);
 });
 
-router.get("/:id", auth, async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   const site: any = await Site.findById(req.params.id);
-  console.log(site, req.params.id);
 
-  if (!site)
-    return res.status(404).send("The site with the given id was not found");
+  if (!site) return res.status(404).send('The site with the given id was not found');
 
   return res.send(site);
 });
 
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
   const { error } = validate(req.body);
   const { user, ...webData } = req.body;
   if (error) return res.status(400).send(error.message);
   const existingSite: WebsiteModel | null = await Site.findOne({
     url: webData.url,
   });
-  if (existingSite)
-    return res.status(400).send(`Hemsidan finns redan: ${webData.url}`);
+  if (existingSite) return res.status(400).send(`Hemsidan finns redan: ${webData.url}`);
 
   // Check if the URL is reachable
   /* const buildUrl = `https://${req.body.web.url}`;
@@ -75,7 +71,6 @@ router.post("/", async (req, res) => {
       .status(400)
       .send(`Hemsidan ej nårbar. Är den upplagd på panelen?: ${buildUrl}`);
   }*/
-  console.log(webData);
   const site: WebsiteModel = new Site({
     _id: new mongoose.Types.ObjectId(),
     ...webData,
@@ -86,8 +81,8 @@ router.post("/", async (req, res) => {
     return res.status(200).send(site);
   } catch (err) {
     console.error(
-      "ERROR: Something went wrong with creating a website, please contact administrator and include this error:",
-      err
+      'ERROR: Something went wrong with creating a website, please contact administrator and include this error:',
+      err,
     );
     return res.status(500).send(err);
   }

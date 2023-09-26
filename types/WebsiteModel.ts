@@ -1,6 +1,7 @@
 export type WebsiteModel = {
   title: string;
   url: string;
+  favicon: string;
   primaryColor: string;
   secondaryColor: string;
   aboutUs: string;
@@ -13,6 +14,23 @@ export type WebsiteModel = {
   _id?: string;
   __v?: number;
 } & MetaProps;
+
+export enum WebsiteModelKeys {
+  Url = 'url',
+  Favicon = 'favicon',
+  PrimaryColor = 'primaryColor',
+  SecondaryColor = 'secondaryColor',
+  Email = 'email',
+  Address = 'address',
+  ServiceDescription = 'serviceDescription',
+  AboutUs = 'aboutUs',
+  Bodys = 'bodyTexts',
+  Services = 'services',
+  ContactInfo = 'contactInfo',
+  ImageUrl = 'imageUrl',
+  MetaTitle = 'metaTitle',
+  MetaDescription = 'metaDescription',
+}
 
 export enum SitePropertyModelKey {
   Title = 'title',
@@ -45,22 +63,6 @@ export enum MetaKeys {
   MetaDescription = 'metaDescription',
 }
 
-export enum WebsiteModelKeys {
-  Url = 'url',
-  PrimaryColor = 'primaryColor',
-  SecondaryColor = 'secondaryColor',
-  Email = 'email',
-  Address = 'address',
-  ServiceDescription = 'serviceDescription',
-  AboutUs = 'aboutUs',
-  Bodys = 'bodyTexts',
-  Services = 'services',
-  ContactInfo = 'contactInfo',
-  ImageUrl = 'imageUrl',
-  MetaTitle = MetaKeys.MetaTitle,
-  MetaDescription = MetaKeys.MetaDescription,
-}
-
 export type InfoType = {
   title: string;
   text: string;
@@ -83,6 +85,7 @@ export const generateInitialState = (site = ''): WebsiteModel => ({
   aboutUs: 'Om oss',
   bodyTexts: Array(3).fill({ title: 'Title', text: 'Change this' }),
   imageUrl: '',
+  favicon: '',
   services: Array(3).fill({
     title: 'Service Title',
     text: 'Service info',

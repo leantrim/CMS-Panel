@@ -1,50 +1,57 @@
-import { faBrowser } from "@fortawesome/pro-light-svg-icons";
-import { faUser } from "@fortawesome/pro-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import Link from "next/link";
-import { faEnvelope } from "@fortawesome/pro-duotone-svg-icons";
-import { faGearCode } from "@fortawesome/pro-thin-svg-icons";
-import { usePathname } from "next/navigation";
+import { faBrowser } from '@fortawesome/pro-light-svg-icons';
+import { faUser } from '@fortawesome/pro-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import Link from 'next/link';
+import { faEnvelope } from '@fortawesome/pro-duotone-svg-icons';
+import { faGearCode } from '@fortawesome/pro-thin-svg-icons';
+import { usePathname } from 'next/navigation';
 
 const SidebarItems = [
   {
-    title: "Websites",
+    title: 'Websites',
     icon: faBrowser,
-    href: "/sites",
+    href: '/sites',
   },
   {
-    title: "Site Configurator",
+    title: 'Site Configurator',
     icon: faGearCode,
-    href: "/websiteconfigurator",
+    href: '/websiteconfigurator',
   },
   {
-    title: "Forms",
+    title: 'Forms',
     icon: faEnvelope,
-    href: "/forms",
+    href: '/forms',
   },
   {
-    title: "Users",
+    title: 'Users',
     icon: faUser,
-    href: "/users",
+    href: '/users',
   },
 ];
 
-const SideBar = () => {
-  const pathname = usePathname().split("/").slice(0, 2).join("/");
+type Props = {
+  isLoggedIn: boolean;
+};
+
+const SideBar = (props: Props) => {
+  const pathname = usePathname().split('/').slice(0, 2).join('/');
 
   return (
     <Container>
       <SubContainer>
-        {SidebarItems.map((item, index) => (
-          <Link href={item.href} key={item.href}>
-            <IconContainer key={item.href} isactive={pathname === item.href}>
-              <StyledIcon icon={item.icon} size='2x' />
-              <span>{item.title}</span>
-            </IconContainer>
-          </Link>
-        ))}
+        {SidebarItems.map(
+          (item, index) =>
+            props.isLoggedIn && (
+              <Link href={item.href} key={item.href}>
+                <IconContainer key={item.href} isactive={pathname === item.href}>
+                  <StyledIcon icon={item.icon} size="2x" />
+                  <span>{item.title}</span>
+                </IconContainer>
+              </Link>
+            ),
+        )}
       </SubContainer>
     </Container>
   );
@@ -54,14 +61,10 @@ const IconContainer = styled.div<{ isactive: boolean }>`
   display: flex;
   align-items: center;
   gap: 12px;
-  border-top: ${(props) =>
-    props.isactive ? "1px solid rgb(185, 214, 255)" : "none"};
-  border-bottom: ${(props) =>
-    props.isactive ? "1px solid rgb(185, 214, 255)" : "none"};
-  border-left: ${(props) =>
-    props.isactive ? "1px solid rgb(185, 214, 255)" : "none"};
-  background-color: ${(props) =>
-    props.isactive ? "rgb(236, 244, 255)" : "transparent"};
+  border-top: ${(props) => (props.isactive ? '1px solid rgb(185, 214, 255)' : 'none')};
+  border-bottom: ${(props) => (props.isactive ? '1px solid rgb(185, 214, 255)' : 'none')};
+  border-left: ${(props) => (props.isactive ? '1px solid rgb(185, 214, 255)' : 'none')};
+  background-color: ${(props) => (props.isactive ? 'rgb(236, 244, 255)' : 'transparent')};
   font-weight: ${(props) => (props.isactive ? 600 : 400)};
   border-bottom-left-radius: 50px;
   border-top-left-radius: 50px;

@@ -1,4 +1,10 @@
+import { Metadata } from 'next';
 import Main from '../components/main';
+
+export const metadata: Metadata = {
+  title: 'CMS - Website Configurator',
+  description: '...',
+};
 
 async function WebsiteConfigurator({ params }: { params: { slug: string } }) {
   const data = await getData(params.slug);

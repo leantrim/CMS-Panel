@@ -20,8 +20,6 @@ const TextField = (props: Props) => {
 
   const length = value?.length;
 
-  console.log(wordCounter);
-
   const getWordCountType = (length: number) => {
     const { minimumLength, maximumLength } = wordCounter!;
     if (length < minimumLength) {

@@ -1,15 +1,15 @@
-import styled from "styled-components";
-import { DefaultTheme } from "styled-components";
+import styled from 'styled-components';
+import { DefaultTheme } from 'styled-components';
 
 export const theme: DefaultTheme = {
-  primary: "#BF4F74",
-  default: "white",
+  primary: '#007bff',
+  secondary: 'grey',
 };
 
-declare module "styled-components" {
+declare module 'styled-components' {
   export interface DefaultTheme {
     primary: string;
-    default: string;
+    secondary: string;
   }
 }
 
@@ -60,4 +60,9 @@ export const SectionSubTitle = styled.h3`
   font-size: 18px;
   font-weight: bold;
   text-align: center;
+`;
+
+export const SiteTitle = styled.h2`
+  color: #333;
+  font-size: 18px;
 `;

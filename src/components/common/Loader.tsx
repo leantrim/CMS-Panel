@@ -1,7 +1,8 @@
-"use client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
+'use client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import styled from 'styled-components';
+import Skeleton from 'react-loading-skeleton';
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -26,8 +27,9 @@ const SpinnerIcon = styled(FontAwesomeIcon)`
 
 export default function Loader() {
   return (
-    <LoadingContainer>
-      <SpinnerIcon icon={faSpinner} />
-    </LoadingContainer>
+    // <LoadingContainer>
+    //   <SpinnerIcon icon={faSpinner} />
+    // </LoadingContainer>
+    <Skeleton count={5} />
   );
 }

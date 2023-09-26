@@ -22,11 +22,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isUserAuthenticated = auth.getCurrentUser();
 
   useEffect(() => {
-    const isUserAuthenticated = auth.getCurrentUser();
-    // Redirect to /login if user is not authenticated
-
     if (!isUserAuthenticated) {
       router.replace('/login');
     } else {
@@ -40,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeProvider theme={theme}>
             <Header />
             <MainContainer>
-              {isLoggedIn && <SideBar />}
+              <SideBar isLoggedIn={isLoggedIn} />
               <Suspense fallback={<Loading />}>
                 <ReduxProvider>{children}</ReduxProvider>
               </Suspense>
@@ -56,4 +54,5 @@ const MainContainer = styled.div`
   display: grid;
   grid-template-columns: 200px 1fr;
   padding-top: 48px;
+  height: 100%;
 `;

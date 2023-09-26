@@ -1,3 +1,4 @@
+import { useAppSelector } from '@/redux/store';
 import Image from 'next/image';
 import React, { useEffect, useState, useTransition } from 'react';
 import styled from 'styled-components';
@@ -10,6 +11,7 @@ type Props = {
 
 function FileUpload(props: Props) {
   const { title, onImageUpdate, value } = props;
+  const siteUrl = useAppSelector((state) => state.webData.url);
 
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>(value);
@@ -27,6 +29,7 @@ function FileUpload(props: Props) {
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('siteUrl', siteUrl);
 
       fetch('http://localhost:8000/api/upload', {
         method: 'POST',
@@ -56,6 +59,10 @@ function FileUpload(props: Props) {
     setImageUrl('');
     setFile(null);
   };
+
+  useEffect(() => {
+    setImageUrl(value);
+  }, [value]);
 
   return (
     <UploadContainer>
@@ -144,6 +151,7 @@ const UploadImageContainer = styled.div`
 const UploadImage = styled(Image)`
   margin-top: 20px;
   max-width: 100%;
+  object-fit: contain;
 `;
 
 const CloseButton = styled.button`

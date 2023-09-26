@@ -1,4 +1,10 @@
-import Main from "./main";
+import { Metadata } from 'next';
+import Main from './main';
+
+export const metadata: Metadata = {
+  title: 'CMS | Forms',
+  description: '...',
+};
 
 const Sites = async () => {
   const data = await getData();
@@ -7,9 +13,9 @@ const Sites = async () => {
 
 async function getData() {
   const res = await fetch(`http://localhost:8000/api/forms`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      ["authorization"]: process.env.BACKEND_API_KEY!!,
+      ['authorization']: process.env.BACKEND_API_KEY!!,
     },
   });
   // The return value is *not* serialized
@@ -18,7 +24,7 @@ async function getData() {
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
 
-    throw new Error("Failed to fetch data");
+    throw new Error('Failed to fetch data');
   }
 
   return res.json();

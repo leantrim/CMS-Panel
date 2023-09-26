@@ -1,8 +1,21 @@
+import { Metadata } from 'next';
 import Main from './components/main';
+import { Suspense } from 'react';
+import Loading from './loading';
+import Skeleton from 'react-loading-skeleton';
+
+export const metadata: Metadata = {
+  title: 'CMS | Hemsidor',
+  description: '...',
+};
 
 const Sites = async () => {
   const data = await getData();
-  return <Main sites={data} />;
+  return (
+    <Suspense fallback={<Skeleton count={5} />}>
+      <Main sites={data} />
+    </Suspense>
+  );
 };
 
 async function getData() {

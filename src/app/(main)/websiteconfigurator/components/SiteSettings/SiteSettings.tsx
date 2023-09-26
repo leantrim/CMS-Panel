@@ -38,6 +38,18 @@ const MainSettings = () => {
           title={'Huvudbild'}
           value={webData[WebsiteModelKeys.ImageUrl]}
         />
+        <FileUpload
+          onImageUpdate={(value) => {
+            const payload = {
+              key: WebsiteModelKeys.Favicon as keyof WebsiteModel,
+              fieldKey: null,
+              value: value,
+            };
+            dispatch(updateWebData(payload));
+          }}
+          title={'Favicon'}
+          value={webData[WebsiteModelKeys.Favicon]}
+        />
         <TextField
           key={WebsiteModelKeys.Url}
           label="Hemsida URL (exempel.se):"

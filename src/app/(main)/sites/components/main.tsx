@@ -1,13 +1,8 @@
 'use client';
-import SharedButton, { ButtonType } from '@/Shared/SharedButton';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { WebsiteModel } from 'types/WebsiteModel';
 import CreateNewSite from './CreateNewSite';
 import { Container } from '@/Shared/Styles';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBrowser, faGear } from '@fortawesome/pro-light-svg-icons';
 import DisplaySite from './DisplaySite';
 
 type Props = {
@@ -15,17 +10,15 @@ type Props = {
 };
 
 const Main = (props: Props) => {
-  const [sites, setSites] = useState<WebsiteModel[]>([]);
-
-  useEffect(() => {
-    setSites(props.sites);
-  }, []);
+  const style = {
+    gap: '24px',
+  };
 
   return (
-    <Container>
+    <Container style={style}>
       <CreateNewSite />
-      {sites.map((site, index) => (
-        <DisplaySite site={site} key={sites[index]._id} />
+      {props.sites.map((site, index) => (
+        <DisplaySite site={site} key={index} />
       ))}
     </Container>
   );

@@ -9,6 +9,7 @@ import { AppDispatch, useAppSelector } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { deleteData, updateWebData } from '@/redux/features/webDataSlice';
 import { metaDescriptionInfo, metaTitleWordInfo } from '@/constants/wordCounters';
+import FileUpload from '../FileUpload/FileUpload';
 
 const Services = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,6 +31,20 @@ const Services = () => {
             title={`Section ${index}`}
             value={webData[WebsiteModelKeys.Services][index]?.title ?? 'Ny sektion'}
           >
+            <FileUpload
+              onImageUpdate={(value) => {
+                dispatch(
+                  updateWebData({
+                    key: WebsiteModelKeys.Services,
+                    fieldKey: SitePropertyModelKey.ImageUrl,
+                    value: value,
+                    index,
+                  }),
+                );
+              }}
+              title={'Service Bild'}
+              value={webData[WebsiteModelKeys.Services][index]?.[SitePropertyModelKey.ImageUrl]}
+            />
             <TextField
               key={SitePropertyModelKey.Title}
               label="Titel"
@@ -77,19 +92,6 @@ const Services = () => {
               value={webData[WebsiteModelKeys.Services][index]?.[SitePropertyModelKey.MetaDescription]}
               wordCounter={metaDescriptionInfo}
               large
-            />
-            <TextField
-              key={SitePropertyModelKey.ImageUrl}
-              label="Bild Länk"
-              onTextUpdate={(e) => {
-                updateWebData({
-                  key: WebsiteModelKeys.Services,
-                  fieldKey: SitePropertyModelKey.ImageUrl,
-                  value: e.currentTarget.value,
-                  index,
-                });
-              }}
-              value={webData[WebsiteModelKeys.Services][index]?.[SitePropertyModelKey.ImageUrl]}
             />
             <TextField
               key={SitePropertyModelKey.Text}
