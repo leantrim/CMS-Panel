@@ -11,6 +11,9 @@ import { updateSite } from '@/services/siteService';
 import { useDispatch } from 'react-redux';
 import { setWebData } from '@/redux/features/webDataSlice';
 import { AppDispatch, useAppSelector } from '@/redux/store';
+import { postData, putData } from '@/lib/queryApi';
+import { API_ROUTES } from 'types/Routes';
+import Reviews from './Reviews';
 
 type Props = {
   website: WebsiteModel;
@@ -19,16 +22,12 @@ type Props = {
 function WebsiteConfigurator(props: Props) {
   const dispatch = useDispatch<AppDispatch>();
   const webData = useAppSelector((state) => state.webData);
-  useEffect(() => {
-    dispatch(setWebData(props.website));
-  }, [props.website, dispatch]);
+  dispatch(setWebData(props.website));
 
   const [errors, setErrors] = useState<string>();
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      // Make Api request with data
-      console.log(webData);
       await updateSite(webData);
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
@@ -40,12 +39,14 @@ function WebsiteConfigurator(props: Props) {
 
   return (
     <Container>
+      {errors && <div>{errors}</div>}
       <Form onSubmit={onSubmit}>
         <MainSettings />
         <ContactInformation />
         <AboutUs />
         <BodySection />
         <Services />
+        <Reviews />
         <Button type="submit">Skapa</Button>
       </Form>
     </Container>

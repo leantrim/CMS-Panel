@@ -7,17 +7,13 @@ import Link from 'next/link';
 import { faEnvelope } from '@fortawesome/pro-duotone-svg-icons';
 import { faGearCode } from '@fortawesome/pro-thin-svg-icons';
 import { usePathname } from 'next/navigation';
+import Skeleton from 'react-loading-skeleton';
 
 const SidebarItems = [
   {
     title: 'Websites',
     icon: faBrowser,
     href: '/sites',
-  },
-  {
-    title: 'Site Configurator',
-    icon: faGearCode,
-    href: '/websiteconfigurator',
   },
   {
     title: 'Forms',
@@ -37,20 +33,26 @@ type Props = {
 
 const SideBar = (props: Props) => {
   const pathname = usePathname().split('/').slice(0, 2).join('/');
+  const skeletonStyle = {
+    borderBottomLeftRadius: '50px',
+    borderTopLeftRadius: '50px',
+    marginBottom: '6px',
+  };
 
   return (
     <Container>
       <SubContainer>
-        {SidebarItems.map(
-          (item, index) =>
-            props.isLoggedIn && (
-              <Link href={item.href} key={item.href}>
-                <IconContainer key={item.href} isactive={pathname === item.href}>
-                  <StyledIcon icon={item.icon} size="2x" />
-                  <span>{item.title}</span>
-                </IconContainer>
-              </Link>
-            ),
+        {props.isLoggedIn ? (
+          SidebarItems.map((item, index) => (
+            <Link href={item.href} key={index}>
+              <IconContainer key={item.href} isactive={pathname === item.href}>
+                <StyledIcon icon={item.icon} size="2x" />
+                <span>{item.title}</span>
+              </IconContainer>
+            </Link>
+          ))
+        ) : (
+          <Skeleton count={SidebarItems.length} height={46} style={skeletonStyle} baseColor="rgb(185,214,255)" />
         )}
       </SubContainer>
     </Container>
@@ -71,10 +73,11 @@ const IconContainer = styled.div<{ isactive: boolean }>`
   padding: 6px;
   padding-left: 12px;
   &:hover {
-    border-top: 1px solid rgb(185, 214, 255);
-    border-bottom: 1px solid rgb(185, 214, 255);
-    border-left: 1px solid rgb(185, 214, 255);
-    background-color: rgb(216, 224, 233);
+    border-top: ${(props) => !props.isactive && '1px solid rgb(185, 214, 255)'};
+    border-bottom: ${(props) => !props.isactive && '1px solid rgb(185, 214, 255)'};
+    border-left: ${(props) => !props.isactive && '1px solid rgb(185, 214, 255)'};
+    cursor: ${(props) => props.isactive && 'default'};
+    background-color: ${(props) => (!props.isactive ? 'rgb(216, 224, 233)' : 'rgb(236, 244, 255)')};
   }
 `;
 

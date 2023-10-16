@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import Main from '../components/main';
+import { getData } from '@/lib/queryApi';
+import { API_ROUTES } from 'types/Routes';
 
 export const metadata: Metadata = {
   title: 'CMS - Website Configurator',
@@ -7,25 +9,9 @@ export const metadata: Metadata = {
 };
 
 async function WebsiteConfigurator({ params }: { params: { slug: string } }) {
-  const data = await getData(params.slug);
+  const data = await getData(API_ROUTES.GET_SITES, params.slug, true);
 
   return <Main website={data} />;
-}
-
-async function getData(id: string) {
-  const res = await fetch(`http://localhost:8000/api/sites/${id}`, {
-    method: 'GET',
-    headers: {
-      ['authorization']: process.env.BACKEND_API_KEY!!,
-    },
-    cache: 'no-store',
-  });
-
-  if (!res.ok) {
-    throw new Error('Failed to fetch data');
-  }
-
-  return res.json();
 }
 
 export default WebsiteConfigurator;

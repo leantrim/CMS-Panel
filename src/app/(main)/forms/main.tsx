@@ -1,23 +1,18 @@
-"use client";
-import { getForms } from "@/services/siteService";
-import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { FormTypes } from "types/Forms";
+'use client';
+import { getForms } from '@/services/siteService';
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { FormTypes } from 'types/Forms';
 
 type Props = {
   forms: FormTypes[];
 };
 
 const Main = (props: Props) => {
-  const [forms, setForms] = useState<FormTypes[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const { forms } = props;
 
-  useEffect(() => {
-    setForms(props.forms);
-  }, []);
   return (
     <div>
-      <Error>{error && error}</Error>
       {forms.map((form) => (
         <Container key={form._id}>
           <FormInfo>{form.email}</FormInfo>

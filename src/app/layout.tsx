@@ -54,5 +54,4 @@ const MainContainer = styled.div`
   display: grid;
   grid-template-columns: 200px 1fr;
   padding-top: 48px;
-  height: 100%;
 `;
