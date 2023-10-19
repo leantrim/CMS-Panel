@@ -9,28 +9,20 @@ export interface DropDownInput {
   value: string;
 }
 
-function DropDownInput({
-  name,
-  label,
-  error,
-  data,
-  options,
-  onChange,
-  ...restProps
-}: DropDownInput) {
+function DropDownInput({ name, label, error, data, options, onChange, ...restProps }: DropDownInput) {
   return (
     <div>
-      <label htmlFor={name} className={"-form-label"}>
+      <label htmlFor={name} className={'-form-label'}>
         {label}
       </label>
-      <select name={name} onChange={onChange} className={"-form-select"}>
+      <select name={name} onChange={onChange} className={'-form-select'}>
         {options.map((opt: any) => (
           <option value={opt.name} key={opt.name}>
             {opt.name}
           </option>
         ))}
       </select>
-      {error && <div className={"-alert"}>{error}</div>}
+      {error && <div className={'-alert'}>{error}</div>}
     </div>
   );
 }

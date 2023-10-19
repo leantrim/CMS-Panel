@@ -1,6 +1,6 @@
-import http from "./httpService";
+import http from './httpService';
 
-const SECOND_URL = "user";
+const SECOND_URL = 'user';
 
 interface User {
   email: string;
@@ -11,15 +11,12 @@ interface User {
 }
 
 function register(user: User) {
-  return http.post(
-    `${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}`,
-    {
-      email: user.email,
-      name: user.name,
-      password: user.password,
-      referalCode: user.referalCode,
-    }
-  );
+  return http.post(`${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}`, {
+    email: user.email,
+    name: user.name,
+    password: user.password,
+    referalCode: user.referalCode,
+  });
 }
 
 function getUsers() {
@@ -27,22 +24,15 @@ function getUsers() {
 }
 
 function getUser() {
-  return http.get(
-    `${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/me`
-  );
+  return http.get(`${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/me`);
 }
 
 function getCustomUser(_id: string) {
-  return http.get(
-    `${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/${_id}`
-  );
+  return http.get(`${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/${_id}`);
 }
 
 function updateUser(_id: string, user: User) {
-  return http.put(
-    `${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/${_id}`,
-    user
-  );
+  return http.put(`${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/${_id}`, user);
 }
 
 const exportObject = {

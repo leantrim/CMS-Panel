@@ -1,14 +1,14 @@
-"use client";
-import query from "@/lib/queryApi";
-import { Button } from "@/Shared/SharedButton";
-import { faRobot, faSpinner, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRef, useState } from "react";
-import styled from "styled-components";
-import useSWR from "swr";
-import Modal from "../common/Modal";
+'use client';
+import query from '@/lib/queryApi';
+import { Button } from '@/Shared/SharedButton';
+import { faRobot, faSpinner, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRef, useState } from 'react';
+import styled from 'styled-components';
+import useSWR from 'swr';
+import Modal from '../common/Modal';
 interface ModelType {
-  object: "engine";
+  object: 'engine';
   id: string;
   ready: boolean;
   owner: string;
@@ -24,20 +24,15 @@ const ChatGpt = (props: Props) => {
   // const { setChatGptResponse, message } = props;
   const { textInputArea } = props;
   const messageInput = useRef<HTMLTextAreaElement>(null);
-  const [response, setChatGptResponse] = useState<string>("");
-  const [history, setHistory] = useState<
-    { text: string; isAiResponse: boolean }[]
-  >([]);
+  const [response, setChatGptResponse] = useState<string>('');
+  const [history, setHistory] = useState<{ text: string; isAiResponse: boolean }[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [models, setModels] = useState<any[]>([]);
-  const [currentModel, setCurrentModel] = useState("text-davinci-003");
+  const [currentModel, setCurrentModel] = useState('text-davinci-003');
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleEnter = (
-    e: React.KeyboardEvent<HTMLTextAreaElement> &
-      React.FormEvent<HTMLFormElement>
-  ) => {
-    if (e.key === "Enter" && isLoading === false) {
+  const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement> & React.FormEvent<HTMLFormElement>) => {
+    if (e.key === 'Enter' && isLoading === false) {
       e.preventDefault();
       setIsLoading(true);
       handleSubmit();
@@ -52,28 +47,22 @@ const ChatGpt = (props: Props) => {
     if (!message) {
       return;
     }
-    setChatGptResponse("");
-    messageInput.current!.value = "";
-    const newEntry = { question: message, response: "" };
+    setChatGptResponse('');
+    messageInput.current!.value = '';
+    const newEntry = { question: message, response: '' };
     setHistory((history) => [
       ...history,
       { text: newEntry.question, isAiResponse: false },
       { text: newEntry.response, isAiResponse: true },
     ]);
     try {
-      const res = await query(
-        history.map((entry) => entry.text).join(" ") + message,
-        currentModel
-      );
+      const res = await query(history.map((entry) => entry.text).join(' ') + message, currentModel);
       if (!res) return;
       const newEntry = {
         question: message,
         response: res,
       };
-      setHistory((history) => [
-        ...history,
-        { text: newEntry.response, isAiResponse: true },
-      ]);
+      setHistory((history) => [...history, { text: newEntry.response, isAiResponse: true }]);
       setChatGptResponse(res);
       setIsLoading(false);
     } catch (error) {
@@ -91,20 +80,18 @@ const ChatGpt = (props: Props) => {
 
   const handleReset = () => {
     // localStorage.removeItem('response');
-    setChatGptResponse("");
+    setChatGptResponse('');
     setHistory([]);
   };
   const fetcher = async () => {
-    const models = await (await fetch("/chatgpt/models")).json();
+    const models = await (await fetch('/chatgpt/models')).json();
     setModels(models.data);
-    const modelIndex = models.data.findIndex(
-      (model: ModelType) => model.id === "GPT-3"
-    );
+    const modelIndex = models.data.findIndex((model: ModelType) => model.id === 'GPT-3');
     setCurrentModel(models.data[modelIndex].id);
     return models;
   };
 
-  useSWR("fetchingModels", fetcher);
+  useSWR('fetchingModels', fetcher);
 
   const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrentModel(e.target.value);
@@ -113,14 +100,14 @@ const ChatGpt = (props: Props) => {
   // handleReset(); // rensa historik
 
   return (
-    <div style={{ maxWidth: "400px" }}>
-      <div onClick={openModal} style={{ cursor: "pointer" }}>
+    <div style={{ maxWidth: '400px' }}>
+      <div onClick={openModal} style={{ cursor: 'pointer' }}>
         <FontAwesomeIcon
           icon={faRobot}
           style={{
-            marginRight: "8px",
+            marginRight: '8px',
             fontSize: 24,
-            color: "#9f3e3e",
+            color: '#9f3e3e',
           }}
         />
         <span>ChatGPT</span>
@@ -128,7 +115,7 @@ const ChatGpt = (props: Props) => {
 
       <Modal isOpen={isOpen} onClose={closeModal}>
         <Container>
-          <div style={{ overflowY: "scroll" }}>
+          <div style={{ overflowY: 'scroll' }}>
             <ChatHistory>
               {history.map(
                 (msg, i) =>
@@ -137,18 +124,16 @@ const ChatGpt = (props: Props) => {
                       <FontAwesomeIcon
                         icon={msg.isAiResponse ? faRobot : faUser}
                         style={{
-                          marginRight: "8px",
+                          marginRight: '8px',
                           fontSize: 24,
-                          color: msg.isAiResponse ? "#9f3e3e" : "#404099",
+                          color: msg.isAiResponse ? '#9f3e3e' : '#404099',
                         }}
                       />
                       {msg.text}
                       <ChatResponse>
                         {msg.isAiResponse && (
                           <AddResponseButton
-                            onClick={(
-                              e: React.MouseEvent<HTMLButtonElement>
-                            ) => {
+                            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                               e.preventDefault();
                               handleAddResponseToTextArea(msg.text);
                             }}
@@ -158,22 +143,17 @@ const ChatGpt = (props: Props) => {
                         )}
                       </ChatResponse>
                     </ChatContainer>
-                  )
+                  ),
               )}
             </ChatHistory>
 
             <InputContainer>
               {isLoading && (
-                <div style={{ textAlign: "center", fontSize: 28 }}>
+                <div style={{ textAlign: 'center', fontSize: 28 }}>
                   <StyledSpinner icon={faSpinner} />
                 </div>
               )}
-              <TextArea
-                name='Message'
-                placeholder='Ställ en fråga'
-                ref={messageInput}
-                onKeyDown={handleEnter}
-              />
+              <TextArea name="Message" placeholder="Ställ en fråga" ref={messageInput} onKeyDown={handleEnter} />
             </InputContainer>
           </div>
         </Container>

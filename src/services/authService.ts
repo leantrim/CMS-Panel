@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import http from './httpService';
 import { postData } from '@/lib/queryApi';
-import { API_ROUTES } from 'types/Routes';
+import { API_ROUTES } from '@mediapartners/shared-types/types/Routes';
 
 const tokenKey = 'x-auth-token';
 

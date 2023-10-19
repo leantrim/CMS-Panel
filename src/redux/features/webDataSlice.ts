@@ -1,5 +1,10 @@
+import {
+  WebsiteModel,
+  generateInitialState,
+  SiteProperty,
+  Services,
+} from '@mediapartners/shared-types/types/panel/cms/WebsiteModel';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Services, SiteProperty, WebsiteModel, generateInitialState } from 'types/WebsiteModel';
 
 const initialState: WebsiteModel = generateInitialState();
 

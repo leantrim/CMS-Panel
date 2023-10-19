@@ -1,28 +1,41 @@
-import { faBrowser } from '@fortawesome/pro-light-svg-icons';
+import { faBrowser, faGear, faGlobe, faStore } from '@fortawesome/pro-light-svg-icons';
 import { faUser } from '@fortawesome/pro-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { faEnvelope } from '@fortawesome/pro-duotone-svg-icons';
-import { faGearCode } from '@fortawesome/pro-thin-svg-icons';
 import { usePathname } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
+import { PAGE_ROUTES } from '@/PageRoutes';
+
+const web_shops = [
+  {
+    storeName: 'Hundkoppeln',
+    storeUrl: 'https://hundkoppeln.se',
+  },
+];
 
 const SidebarItems = [
   {
-    title: 'Websites',
+    title: 'Landnings Sidor',
     icon: faBrowser,
-    href: '/sites',
+    href: PAGE_ROUTES.landingSites,
+    subItems: [
+      {
+        title: 'Forms',
+        icon: faEnvelope,
+        href: PAGE_ROUTES.landingForms,
+      },
+    ],
   },
   {
-    title: 'Forms',
-    icon: faEnvelope,
-    href: '/forms',
+    title: 'E-Handel',
+    icon: faStore,
+    href: PAGE_ROUTES.ecommerce,
   },
   {
-    title: 'Users',
-    icon: faUser,
+    title: 'Panel Settings',
+    icon: faGear,
     href: '/users',
   },
 ];
@@ -32,32 +45,29 @@ type Props = {
 };
 
 const SideBar = (props: Props) => {
-  const pathname = usePathname().split('/').slice(0, 2).join('/');
-  const skeletonStyle = {
-    borderBottomLeftRadius: '50px',
-    borderTopLeftRadius: '50px',
-    marginBottom: '6px',
-  };
+  const pathname = usePathname();
 
   return (
     <Container>
       <SubContainer>
-        {props.isLoggedIn ? (
-          SidebarItems.map((item, index) => (
-            <Link href={item.href} key={index}>
-              <IconContainer key={item.href} isactive={pathname === item.href}>
-                <StyledIcon icon={item.icon} size="2x" />
-                <span>{item.title}</span>
+        {SidebarItems.map((item, index) => (
+          <div key={index}>
+            <Link href={item.href}>
+              <IconContainer key={item.href} isactive={pathname.includes(item.href)}>
+                <div>
+                  <StyledIcon icon={item.icon} size="2x" />
+                  <span>{item.title}</span>
+                </div>
               </IconContainer>
             </Link>
-          ))
-        ) : (
-          <Skeleton count={SidebarItems.length} height={46} style={skeletonStyle} baseColor="rgb(185,214,255)" />
-        )}
+          </div>
+        ))}
       </SubContainer>
     </Container>
   );
 };
+
+const SubItemContainer = styled.div``;
 
 const IconContainer = styled.div<{ isactive: boolean }>`
   display: flex;

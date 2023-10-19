@@ -1,22 +1,21 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { toast } from "react-toastify";
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
 
 axios.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
     if (error.response) {
-      const expectedError =
-        error.response.status >= 400 && error.response.status < 500;
+      const expectedError = error.response.status >= 400 && error.response.status < 500;
       if (expectedError) {
         toast.error(JSON.stringify(error.response.data));
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 function setAuthHeader(jwt: any) {
-  axios.defaults.headers.common["x-auth-token"] = jwt;
+  axios.defaults.headers.common['x-auth-token'] = jwt;
 }
 
 const exportedObject = {

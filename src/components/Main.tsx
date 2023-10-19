@@ -1,13 +1,12 @@
-"use client";
-import Link from "next/link";
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import { useRouter } from "next/navigation";
+'use client';
+import Link from 'next/link';
+import React from 'react';
+import styled from 'styled-components';
 
 const Main = () => {
   return (
     <Container>
-      <StyledLink href='/websiteconfigurator'>Skapa ny hemsida</StyledLink>
+      <StyledLink href="/websiteconfigurator">Skapa ny hemsida</StyledLink>
     </Container>
   );
 };

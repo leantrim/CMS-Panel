@@ -1,9 +1,9 @@
-import { useState } from "react";
-import Input from "./Input";
-import { ObjectSchema } from "joi";
-import styled from "styled-components";
-import DropDownInput from "./DropDowmInput";
-import SharedButton, { ButtonType } from "@/Shared/SharedButton";
+import { useState } from 'react';
+import Input from './Input';
+import { ObjectSchema } from 'joi';
+import styled from 'styled-components';
+import DropDownInput from './DropDowmInput';
+import SharedButton, { ButtonType } from '@/Shared/SharedButton';
 
 interface Form<Type> {
   initialData: Type;
@@ -11,11 +11,7 @@ interface Form<Type> {
   doSubmit: (formData: Type) => void;
 }
 
-export default function useForm<Type>({
-  initialData,
-  joiSchema,
-  doSubmit,
-}: Form<Type>) {
+export default function useForm<Type>({ initialData, joiSchema, doSubmit }: Form<Type>) {
   const [data, setData] = useState<any>(initialData);
   const [errors, setErrors] = useState<any>(initialData);
 
@@ -66,12 +62,7 @@ export default function useForm<Type>({
     doSubmit(data);
   };
 
-  const renderInput = (
-    name: string,
-    label: string,
-    input = "text",
-    icon = undefined
-  ) => (
+  const renderInput = (name: string, label: string, input = 'text', icon = undefined) => (
     <Input
       type={input}
       name={name}

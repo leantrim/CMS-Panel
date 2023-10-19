@@ -1,12 +1,10 @@
-"use client";
-import { useState } from "react";
-import styled from "styled-components";
-import Joi from "joi";
-import useForm from "../../../components/common/FormControl/Form";
-import Image from "next/image";
-import auth from "../../../services/authService";
-import Link from "next/link";
-import { SectionTitle } from "@/Shared/Styles";
+'use client';
+import { useState } from 'react';
+import styled from 'styled-components';
+import Joi from 'joi';
+import useForm from '../../../components/common/FormControl/Form';
+import auth from '../../../services/authService';
+import { SectionTitle } from '@/Shared/Styles';
 
 type Login = {
   email: string;
@@ -14,20 +12,20 @@ type Login = {
 };
 
 export default function Login() {
-  const data: Login = { email: "", password: "" };
+  const data: Login = { email: '', password: '' };
   const [errors, setErrors] = useState<any>();
 
   const joiSchema = Joi.object({
     email: Joi.string()
       .email({ tlds: { allow: false } })
-      .label("Email"),
-    password: Joi.string().min(6).required().label("Password"),
+      .label('Email'),
+    password: Joi.string().min(6).required().label('Password'),
   });
 
   const doSubmit = async (data: Login) => {
     try {
       await auth.login(data);
-      window.location.href = "/";
+      window.location.href = '/';
     } catch (error: any) {
       if (error.response && error.response.status === 400) {
         const errors = error.response.data;
@@ -47,10 +45,10 @@ export default function Login() {
       <LoginContainer>
         <SectionTitle>Login</SectionTitle>
         <Form onSubmit={handleSubmit}>
-          {renderInput("email", "Email", "")}
-          {renderInput("password", "Password", "password")}
-          {errors && <h4 className='register-errorresponse'>{errors}</h4>}
-          {renderButton("Login")}
+          {renderInput('email', 'Email', '')}
+          {renderInput('password', 'Password', 'password')}
+          {errors && <h4 className="register-errorresponse">{errors}</h4>}
+          {renderButton('Login')}
         </Form>
       </LoginContainer>
     </Container>

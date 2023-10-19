@@ -1,6 +1,6 @@
-"use client";
-import { NextResponse } from "next/server";
-import auth from "./services/authService";
+'use client';
+import { NextResponse } from 'next/server';
+import auth from './services/authService';
 
 export default function authMiddleware(req: NextResponse) {
   // Add your own logic here to check if the user is authenticated

@@ -1,6 +1,6 @@
 import { Configuration, OpenAIApi } from 'openai';
-import { API_ROUTES } from 'types/Routes';
 import http from '@/services/httpService';
+import { API_ROUTES } from '@mediapartners/shared-types/types/Routes';
 
 const environment = process.env.NODE_ENV;
 const productionUrl = process.env.PRODUCTION_DATABASE_URL || process.env.NEXT_PUBLIC_PRODUCTION_DATABASE_URL;
@@ -70,25 +70,24 @@ export async function postData(mainRoute: API_ROUTES, data: any, subRoute?: stri
 }
 
 export async function getData(mainRoute: API_ROUTES, subRoute?: string, noCache?: boolean) {
-  const apiPath = `/api/${mainRoute}`;
+  const apiPath = `/${mainRoute}`;
   const url = `${baseUrl}${apiPath}`;
   const fetchUrl = subRoute ? `${url}/${subRoute}` : url;
 
-  const res = await fetch(fetchUrl, {
-    method: 'GET',
-    cache: noCache ? 'no-store' : 'default',
-    headers: {
-      ['authorization']: process.env.BACKEND_API_KEY!!,
-    },
-  });
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data');
+  try {
+    const res = await fetch(fetchUrl, {
+      method: 'GET',
+      cache: noCache ? 'no-store' : 'default',
+      headers: {
+        ['authorization']: process.env.BACKEND_API_KEY!!,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    throw error;
   }
-  return res.json();
 }
+// The return value is *not* serialized
+// You can return Date, Map, Set, etc.
 
 export default query;

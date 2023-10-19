@@ -14,11 +14,6 @@ import { ReduxProvider } from '@/redux/prodiver';
 
 const robot = Roboto({ subsets: ['latin'], weight: ['400'] });
 
-export const metadata = {
-  title: 'Media Partners - CMS',
-  description: 'Content Managment System - Media Partners AB @2023',
-};
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);

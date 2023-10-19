@@ -1,11 +1,10 @@
-"use client";
-import { SectionSubTitle, SectionTitle } from "@/Shared/Styles";
-import { WebsiteModel } from "types/WebsiteModel";
-import { faPalette } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { ColorResult, SketchPicker } from "react-color";
-import styled from "styled-components";
+'use client';
+import { SectionSubTitle } from '@/Shared/Styles';
+import { faPalette } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { ColorResult, SketchPicker } from 'react-color';
+import styled from 'styled-components';
 
 type ColorPreviewPros = {
   previewColor: string;
@@ -24,10 +23,7 @@ const ColorPicker = (props: Props) => {
   return (
     <div>
       <SectionSubTitle>{title}</SectionSubTitle>
-      <PreviewContainer
-        previewColor={value}
-        onClick={() => setShowColorPicker(!showColorPicker)}
-      >
+      <PreviewContainer previewColor={value} onClick={() => setShowColorPicker(!showColorPicker)}>
         <FontAwesomeIcon icon={faPalette} />
       </PreviewContainer>
       {showColorPicker && (
@@ -38,8 +34,8 @@ const ColorPicker = (props: Props) => {
             styles={{
               default: {
                 picker: {
-                  paddingRight: "14px",
-                  paddingLeft: "14px",
+                  paddingRight: '14px',
+                  paddingLeft: '14px',
                 },
               },
             }}

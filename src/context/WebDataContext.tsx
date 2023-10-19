@@ -1,6 +1,11 @@
 'use client';
+import {
+  WebsiteModel,
+  ContactInfo,
+  Services,
+  generateInitialState,
+} from '@mediapartners/shared-types/types/panel/cms/WebsiteModel';
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { ContactInfo, Services, SiteProperty, WebsiteModel, generateInitialState } from 'types/WebsiteModel';
 
 export type WebDataMethods = {
   updateWebData: (

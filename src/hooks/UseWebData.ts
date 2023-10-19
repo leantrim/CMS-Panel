@@ -1,16 +1,11 @@
-"use client";
-import { useState } from "react";
-import { WebsiteModel, generateInitialState } from "types/WebsiteModel";
+'use client';
+import { WebsiteModel, generateInitialState } from '@mediapartners/shared-types/types/panel/cms/WebsiteModel';
+import { useState } from 'react';
 
 export const useWebData = () => {
   const [webData, setWebData] = useState<WebsiteModel>(generateInitialState);
 
-  const updateWebData = (
-    key: keyof WebsiteModel,
-    fieldKey: keyof WebsiteModel | null,
-    value: any,
-    index?: number
-  ) => {
+  const updateWebData = (key: keyof WebsiteModel, fieldKey: keyof WebsiteModel | null, value: any, index?: number) => {
     setWebData((prevWebData) => {
       let updatedData = { ...prevWebData };
       if (index !== undefined) {
@@ -45,9 +40,7 @@ export const useWebData = () => {
   const deleteData = (key: keyof WebsiteModel, index: number) => {
     setWebData((prevWebData) => {
       if (Array.isArray(prevWebData[key])) {
-        const newData = (prevWebData[key] as Array<any>).filter(
-          (_, i) => i !== index
-        );
+        const newData = (prevWebData[key] as Array<any>).filter((_, i) => i !== index);
         return { ...prevWebData, [key]: newData };
       }
       return prevWebData;

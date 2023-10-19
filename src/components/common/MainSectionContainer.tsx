@@ -3,10 +3,10 @@ import { useState } from 'react';
 import ToggleContainerVisibility from './ToggleContainerVisibility';
 import styled from 'styled-components';
 import SharedButton, { ButtonType } from '@/Shared/SharedButton';
-import { WebsiteModel } from 'types/WebsiteModel';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { addData } from '@/redux/features/webDataSlice';
+import { WebsiteModel } from '@mediapartners/shared-types/types/panel/cms/WebsiteModel';
 
 interface MainSectionContainerProps {
   children: React.ReactNode;

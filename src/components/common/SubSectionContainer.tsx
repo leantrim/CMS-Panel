@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import ToggleContainerVisibility from "./ToggleContainerVisibility";
-import { useState } from "react";
-import SectionHeader from "./SectionHeader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import styled from 'styled-components';
+import ToggleContainerVisibility from './ToggleContainerVisibility';
+import { useState } from 'react';
+import SectionHeader from './SectionHeader';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 interface SubSectionContainer {
   children: React.ReactNode;
@@ -20,14 +20,11 @@ const SubSectionContainer = (props: SubSectionContainer) => {
       onClick={() => {
         if (!showSettings) setShowSettings(true);
       }}
-      style={{ cursor: !showSettings ? "pointer" : "default" }}
+      style={{ cursor: !showSettings ? 'pointer' : 'default' }}
       showSettings={!showSettings}
     >
       <DeleteExpand>
-        <ToggleContainerVisibility
-          setShowSettings={setShowSettings}
-          showSettings={showSettings}
-        />
+        <ToggleContainerVisibility setShowSettings={setShowSettings} showSettings={showSettings} />
         <StyledIcon icon={faTrashCan} onClick={onClickDelete} />
       </DeleteExpand>
       <SectionHeader title={title} value={value} />
