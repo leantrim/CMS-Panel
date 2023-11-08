@@ -2,10 +2,7 @@ import { Configuration, OpenAIApi } from 'openai';
 import http from '@/services/httpService';
 import { API_ROUTES } from '@mediapartners/shared-types/types/Routes';
 
-const environment = process.env.NODE_ENV;
-const productionUrl = process.env.PRODUCTION_DATABASE_URL || process.env.NEXT_PUBLIC_PRODUCTION_DATABASE_URL;
-const developmentUrl = process.env.DEVELOPMENT_DATABASE_URL || process.env.NEXT_PUBLIC_DEVELOPMENT_DATABASE_URL;
-const baseUrl = environment === 'production' ? productionUrl : developmentUrl;
+const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.BACKEND_URL;
 
 const query = async (promt: string, model: string) => {
   const configuration = new Configuration({
@@ -29,10 +26,8 @@ const query = async (promt: string, model: string) => {
   return response;
 };
 
-export async function putData(mainRoute: API_ROUTES, data: any, subRoute?: string) {
-  const apiPath = `/api/${mainRoute}`;
-  const url = `${baseUrl}${apiPath}`;
-  const fetchUrl = subRoute ? `${url}/${subRoute}` : url;
+export async function putData(mainRoute: string, data: any) {
+  const fetchUrl = `${baseUrl}/${mainRoute}`;
 
   try {
     const res = await http.put(fetchUrl, data, {
@@ -41,15 +36,14 @@ export async function putData(mainRoute: API_ROUTES, data: any, subRoute?: strin
         authorization: process.env.BACKEND_API_KEY!!,
       },
     });
-
-    return res.data;
+    return res;
   } catch (error) {
     return error;
   }
 }
 
 export async function postData(mainRoute: API_ROUTES, data: any, subRoute?: string) {
-  const apiPath = `/api/${mainRoute}`;
+  const apiPath = `/${mainRoute}`;
   const url = `${baseUrl}${apiPath}`;
   const fetchUrl = subRoute ? `${url}/${subRoute}` : url;
 
@@ -59,7 +53,7 @@ export async function postData(mainRoute: API_ROUTES, data: any, subRoute?: stri
     const res = await http.post(fetchUrl, data, {
       headers: {
         'Content-Type': 'application/json',
-        authorization: process.env.BACKEND_API_KEY!!,
+        // ['authorization']: `Bearer ${process.env.BACKEND_API_KEY}`,
       },
     });
 
@@ -79,15 +73,15 @@ export async function getData(mainRoute: API_ROUTES, subRoute?: string, noCache?
       method: 'GET',
       cache: noCache ? 'no-store' : 'default',
       headers: {
-        ['authorization']: process.env.BACKEND_API_KEY!!,
+        ['authorization']: `Bearer ${process.env.BACKEND_API_KEY}`,
       },
     });
-    return res.json();
+    const data = await res.json();
+    // console.log(res);
+    return data;
   } catch (error) {
     throw error;
   }
 }
-// The return value is *not* serialized
-// You can return Date, Map, Set, etc.
 
 export default query;

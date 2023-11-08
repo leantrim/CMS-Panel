@@ -16,13 +16,13 @@ declare module 'styled-components' {
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid #e0e0e0; // Light grey border for a cleaner look
-  border-radius: 8px; // Rounded corners for a softer, nicer look
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   padding: 24px;
   gap: 8px;
-  background-color: #fff; // White background for a clean look
-  transition: all 0.3s ease; // Smooth transition for any changes
+  background-color: #fff;
+  transition: all 0.3s ease;
 `;
 
 export const TextSection = styled.div`

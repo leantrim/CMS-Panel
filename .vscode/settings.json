@@ -1,4 +1,12 @@
 {
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "testRunner.config": [
+    {
+      "directory": "src/app/(main)/(ecommerce)/ecommerce/products/[product]/components/ProductMainSettings",
+      "language": "typescript",
+      "testingFramework": "vitest",
+      "command": "echo \"Configure your test command here. The variable $TEST_FILE_NAME will have the file name of the test that should be executed.\""
+    }
+  ]
 }

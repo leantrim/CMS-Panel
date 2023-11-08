@@ -13,14 +13,10 @@ interface User {
 }
 
 async function login(user: User) {
-  // const { data: jwt } = await http.post(
-  //   `http://localhost:8000/api/${SECOND_URL}`,
-  //   {
-  //     email: user.email,
-  //     password: user.password,
-  //   }
-  // );
-  const jwt = await postData(API_ROUTES.AUTH, { email: user.email, password: user.password });
+  const jwt = await postData(API_ROUTES.AUTH, {
+    email: user.email,
+    password: user.password,
+  });
   localStorage.setItem(tokenKey, jwt);
 }
 
@@ -44,7 +40,6 @@ function getCurrentUser() {
 
 function getJwt() {
   if (typeof window !== 'undefined') {
-    // Perform localStorage action
     const key = localStorage.getItem(tokenKey);
     return key;
   }

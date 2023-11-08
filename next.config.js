@@ -20,8 +20,8 @@ module.exports = (phase) => {
     images: {
       remotePatterns: [
         {
-          protocol: !JSON.parse(process.env.MINIO_USE_SSL) ? 'http' : 'https',
-          hostname: process.env.MINIO_END_POINT,
+          protocol: !JSON.parse(process.env.NEXT_PUBLIC_MINIO_USE_SSL) ? 'http' : 'https',
+          hostname: process.env.NEXT_PUBLIC_MINIO_END_POINT,
         },
       ],
     },

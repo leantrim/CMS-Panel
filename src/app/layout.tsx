@@ -11,6 +11,7 @@ import { Suspense, useEffect, useState } from 'react';
 import auth from '../services/authService';
 import Loading from './loading';
 import { ReduxProvider } from '@/redux/prodiver';
+import { Toaster } from '@/components/ui/toaster';
 
 const robot = Roboto({ subsets: ['latin'], weight: ['400'] });
 
@@ -27,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     }
   }, []);
   return (
-    <html className={robot.className}>
+    <html className={robot.className} lang={'sv'}>
       <StyledComponentsRegistry>
         <body>
           <ThemeProvider theme={theme}>
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <SideBar isLoggedIn={isLoggedIn} />
               <Suspense fallback={<Loading />}>
                 <ReduxProvider>{children}</ReduxProvider>
+                <Toaster />
               </Suspense>
             </MainContainer>
           </ThemeProvider>

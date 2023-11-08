@@ -7,14 +7,14 @@ type Props = {
   title: string;
   onImageUpdate: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   value: string;
+  siteUrl: string;
 };
 
 function FileUpload(props: Props) {
-  const { title, onImageUpdate, value } = props;
-  const siteUrl = useAppSelector((state) => state.webData.url);
+  const { title, onImageUpdate, value, siteUrl } = props;
 
   const [file, setFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>(value);
+  const [imageUrl, setImageUrl] = useState<string>(value ?? '');
   const [error, setError] = useState<string>();
   const [isPending, startTransition] = useTransition();
   const [showCloseButton, setShowCloseButton] = useState<boolean>(false);

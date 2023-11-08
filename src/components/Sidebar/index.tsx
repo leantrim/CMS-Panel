@@ -8,13 +8,6 @@ import { usePathname } from 'next/navigation';
 import Skeleton from 'react-loading-skeleton';
 import { PAGE_ROUTES } from '@/PageRoutes';
 
-const web_shops = [
-  {
-    storeName: 'Hundkoppeln',
-    storeUrl: 'https://hundkoppeln.se',
-  },
-];
-
 const SidebarItems = [
   {
     title: 'Landnings Sidor',
@@ -51,11 +44,11 @@ const SideBar = (props: Props) => {
     <Container>
       <SubContainer>
         {SidebarItems.map((item, index) => (
-          <div key={index}>
+          <div key={index} className="py-10">
             <Link href={item.href}>
               <IconContainer key={item.href} isactive={pathname.includes(item.href)}>
                 <div>
-                  <StyledIcon icon={item.icon} size="2x" />
+                  <FontAwesomeIcon icon={item.icon} size="xs" className="text-sm" />
                   <span>{item.title}</span>
                 </div>
               </IconContainer>

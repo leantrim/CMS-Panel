@@ -11,7 +11,7 @@ interface User {
 }
 
 function register(user: User) {
-  return http.post(`${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}`, {
+  return http.post(`${process.env.BACKEND_URL}/api/${SECOND_URL}`, {
     email: user.email,
     name: user.name,
     password: user.password,
@@ -20,19 +20,19 @@ function register(user: User) {
 }
 
 function getUsers() {
-  return http.get(`${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/`);
+  return http.get(`${process.env.BACKEND_URL}/api/${SECOND_URL}/`);
 }
 
 function getUser() {
-  return http.get(`${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/me`);
+  return http.get(`${process.env.BACKEND_URL}/api/${SECOND_URL}/me`);
 }
 
 function getCustomUser(_id: string) {
-  return http.get(`${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/${_id}`);
+  return http.get(`${process.env.BACKEND_URL}/api/${SECOND_URL}/${_id}`);
 }
 
 function updateUser(_id: string, user: User) {
-  return http.put(`${process.env.DEVELOPMENT_DATABASE_URL}/api/${SECOND_URL}/${_id}`, user);
+  return http.put(`${process.env.BACKEND_URL}/api/${SECOND_URL}/${_id}`, user);
 }
 
 const exportObject = {

@@ -1,11 +1,11 @@
-'use client';
 import { PAGE_ROUTES } from '@/PageRoutes';
-import { Container as Base } from '@/Shared/Styles';
+import ImagesBrowser from '@/components/ImagesBrowser';
+import NextBreadcrumb from '@/components/common/Breadcrumbs';
+import { getData } from '@/lib/queryApi';
 import { faStore } from '@fortawesome/pro-light-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { API_ROUTES } from '@mediapartners/shared-types/types/Routes';
 import Link from 'next/link';
-import React from 'react';
-import styled from 'styled-components';
 
 const tabMap = [
   {
@@ -25,38 +25,31 @@ const tabMap = [
   },
 ];
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const images = await getData(API_ROUTES.UPLOAD);
+
   return (
-    <Base>
-      <TabContainer>
+    <div className="flex flex-col bg-white shadow-md rounded-lg p-6 font-thin">
+      <div className="flex w-full justify-between px-12 items-center text-center bg-gray-200 rounded-lg p-2 shadow-md">
         {tabMap.map((item, index) => (
           <Link href={item.href} key={index}>
-            <TabList>
+            <div>
               <FontAwesomeIcon icon={item.icon} />
               <div>{item.name}</div>
-            </TabList>
+            </div>
           </Link>
         ))}
-      </TabContainer>
+      </div>
+      <ImagesBrowser images={images} />
+      <NextBreadcrumb
+        homeElement={'Hem'}
+        separator={<span> | </span>}
+        activeClasses="text-gray-500"
+        containerClasses="flex py-5 text-gray-400 font-thin text-sm"
+        listClasses="hover:underline mx-2 font-bold"
+        capitalizeLinks
+      />
       {children}
-    </Base>
+    </div>
   );
 }
-
-const TabContainer = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding-left: 48px;
-  padding-right: 48px;
-  align-items: center;
-  text-align: center;
-  background-color: #f1efef;
-  border-radius: 12px;
-  padding: 8px;
-  padding-left: 48px;
-  padding-right: 48px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
-const TabList = styled.div``;

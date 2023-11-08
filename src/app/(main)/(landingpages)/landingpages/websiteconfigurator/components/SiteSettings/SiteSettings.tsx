@@ -11,10 +11,6 @@ import { updateWebData } from '@/redux/features/webDataSlice';
 import { metaDescriptionInfo, metaTitleWordInfo } from '@/constants/wordCounters';
 import { WebsiteModelKeys, WebsiteModel } from '@mediapartners/shared-types/types/panel/cms/WebsiteModel';
 
-const ColorPicker = dynamic(() => import('../../../../../../components/common/ColorPicker'), {
-  ssr: true,
-});
-
 const MainSettings = () => {
   const dispatch = useDispatch<AppDispatch>();
   const webData = useAppSelector((state) => state.webData);
@@ -92,7 +88,7 @@ const MainSettings = () => {
           wordCounter={metaDescriptionInfo}
           large
         />
-        <ColorPickerContainer>
+        {/* <ColorPickerContainer>
           <ColorPicker
             key={WebsiteModelKeys.PrimaryColor}
             title="Primär färg"
@@ -119,7 +115,7 @@ const MainSettings = () => {
             }}
             value={webData[WebsiteModelKeys.SecondaryColor]}
           />
-        </ColorPickerContainer>
+        </ColorPickerContainer> */}
       </>
     </Container>
   );
